@@ -6,11 +6,28 @@ EEPROM.put(address, data)     Write any data type or object to the EEPROM.
 EEPROM.update(address, value) Write a byte to the EEPROM. The value is written only if differs from the one already saved at the same address.
 EEPROM[address]               This operator allows using the identifier `EEPROM` like an array. EEPROM cells can be read and written directly using this method.
 */
+/*
+const char string_0[] PROGMEM = "String 0"; // "String 0" etc are strings to store - change to suit.
+const char string_1[] PROGMEM = "String 1";
+const char string_2[] PROGMEM = "String 2";
+const char string_3[] PROGMEM = "String 3";
+const char string_4[] PROGMEM = "String 4";
+const char string_5[] PROGMEM = "String 5";
+
+const char *const string_table[] PROGMEM = {string_0, string_1, string_2, string_3, string_4, string_5};
+
+char buffer[30];  // make sure this is large enough for the largest string it must hold
+*/
+/*
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));  // Necessary casts and dereferencing, just copy.
+    Serial.println(buffer);
+ */
+
 
 void EEPROM_Clean(){
-      //Cancella tuttal la eeprom
-      for (int i = 0 ; i < EEPROM.length() ; i++) {
-          EEPROM.update(i, 0);
+      //Cancella la eeprom dall'inizio fino all'address lunghezza
+      for (int i = 0 ; i < MAXVAR-1 ; i++) {
+          EEPROM.update(int_table_Address[i], 0);
       }
       
       Serial.println("EEPROM CLEAN - DONE"); 
@@ -19,19 +36,52 @@ void EEPROM_Clean(){
   }
 
 void EEPROM_Scan(){
-      //Iterate the EEPROM using a for loop.
+      Serial.println("EEPROM Scan");
+      for (int i = 0 ; i < MAXVAR-1 ; i++) {
+          byte value = EEPROM.read(int_table_Address[i]);
 
-      for (int index = 0 ; index < EEPROM.length() ; index++) {
-          //Add one to each cell in the EEPROM
-          EEPROM[ index ] += 1;
+          Serial.print(int_table_Address[i]);
+          Serial.print("\t");
+          Serial.print(value);
+          Serial.println();
+         
+          if (i == EEPROM.length())
+            i = 0;
       }
-
-      Serial.println("EEPROM CLEAN - DONE"); 
       return;
   }
 
-  
+void EEPROM_RAM_ResetToDefault(){
+      byte int_table_1[] = {TH,MAXTEMP,MINTEMP,MINUMID,MAXUMID,PERVENT,DURVENT,MATNSTRT_H,MATNSTRT_M,SERASTRT_H,SERASTRT_M,DURIRRIG_H,DURIRRIG_M,PERIRGZFIX,DURIRGZFIX};
+      //ripulisco fino a dove mi serve
+      EEPROM_Clean();
+      // update fino a dove mi serve
+      for (int i = 0; i <= MAXVAR-1; i++){
+        EEPROM.update(int_table_Address[i], int_table_1[i]);
+        int_table[i] = int_table_1[i];
+      }
+      return;
 
+      Serial.println("ResetToDefault"); 
+  }
+  
+void  EEPROM_to_RAM_Update(){
+       Serial.println("RAM Update");
+       for (int i = 0 ; i < MAXVAR-1 ; i++) {
+          if(int_table[i] != EEPROM.read(int_table_Address[i])){
+              int_table[i] = EEPROM.read(int_table_Address[i]); 
+          }
+       }      
+      return;
+  }
+
+void  RAM_to_EEPROM_Update(){
+       Serial.println("EEPROM Update");
+       for (int i = 0; i <= MAXVAR-1; i++)
+        EEPROM.update(int_table_Address[i], int_table[i]);
+   
+      return;
+  }
 
 
 

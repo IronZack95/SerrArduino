@@ -6,12 +6,15 @@ void RealTimeClock(){
   }
 
   
-long RTC_Unix(long unix){
-    
-    
+void UItoAUTOMATIC(){
+    // verifico se nulla viene premuto per il tempo ATTESAMENU
+    if( abs(dt.unixtime - Last_Unix_time) >= ATTESAMENU){
+        UI_Status = false;      //ritorno alla modalità automatica
+        Mod = false;
+        RotaryPosition=0;
+      }
     return;
 }
-
 
 void Detect_Allarm(){
       // Call isAlarm1(false) if you want clear alarm1 flag manualy by clearAlarm1();

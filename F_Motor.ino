@@ -17,7 +17,7 @@ void MotorDir(bool dir){
 void Motore(){
 
       //ACCENSIONE  ---------------------------------------------------------------------------------------------
-        if((int)temperature > threshold && (int)temperature <= MAXTEMP){
+        if((int)temperature > EEPROM.read(Address_TH) && (int)temperature <= EEPROM.read(Address_MAXTEMP)){
                 //---PWM 
                 if(velocity == 0){                            // Aiuta a partire nel caso parta da fermo
                       for(int ii = 0; ii <= CicliAvvio ; ii++){
@@ -35,7 +35,7 @@ void Motore(){
                 MotorDir(direzione);
                 
                 //calcolo velocità
-                velocity = ((MAXVEL - MINVEL)/(MAXTEMP - threshold))*pow(((int)temperature - threshold),rapporto)   + MINVEL;
+                velocity = ((MAXVEL - MINVEL)/(EEPROM.read(Address_MAXTEMP) - EEPROM.read(Address_TH)))*pow(((int)temperature - EEPROM.read(Address_TH)),rapporto)   + MINVEL;
                 
                 //Serial.println(int(velocity));
                 analogWrite(ENABLE,(int)velocity); //half speed    // Velocità a regime
@@ -43,12 +43,12 @@ void Motore(){
           }
   
       // SPEGNIMENTO  ---------------------------------------------------------------------------------------------
-        if((int)temperature <= threshold || (int)temperature> MAXTEMP){
+        if((int)temperature <= EEPROM.read(Address_TH) || (int)temperature> EEPROM.read(Address_MAXTEMP)){
                 Serial.println("spengo motore");
                 //---PWM 
                 velocity = 0;
                 digitalWrite(ENABLE,LOW); //enable off
-                if((int)temperature> MAXTEMP){
+                if((int)temperature> EEPROM.read(Address_MAXTEMP)){
                   Serial.println("MAXTEMP SUPERATA - - - - - ERRORE");
                   return;
                 }

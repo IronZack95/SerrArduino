@@ -1,14 +1,18 @@
 // INIZIO PROGRAMMA
 void setup() {
-    
+
   // inizializzo Porta Seriale
   Serial.begin(9600);
   Serial.println("");
   Setup_Serial_div();
 
   //Inizializzo EEPROM
-  EEPROM_Clean();
-
+  //EEPROM_RAM_ResetToDefault();            // <---- Decommento se voglio Le Impostazioni di fabbrica
+  EEPROM_Scan();     // <---- Decommento se voglio lo scan inSerial Monitor della EEPROM
+  
+  //carico nella RAM i valori dall'EEPROM
+  EEPROM_to_RAM_Update();
+  
   // Initialize DS3231
   Serial.println("Initialize DS3231");
   clock.begin();
@@ -57,6 +61,11 @@ void setup() {
   
   // Inizialize Servo
   myservo.attach(SERVOPIN);
+
+  //Custom Char
+  lcd.createChar(0, gradi);
+  lcd.createChar(1, alien);
+  lcd.createChar(2, plant);
 
   Setup_Serial_div();
 
