@@ -1,2 +1,2 @@
-# Termometro_con_motore
+# SerrArduino
  Sistema di Automazione per Serra con Arduino
