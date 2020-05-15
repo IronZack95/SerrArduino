@@ -10,8 +10,10 @@ void Serial_Out(byte t, byte u, int v, int l , int p){
         Serial.print(dt.hour);   Serial.print(":");
         Serial.print(dt.minute); Serial.print(":");
         Serial.print(dt.second); Serial.println("");
+
+        Serial.print("Unix Time: "); Serial.print(dt.unixtime); Serial.println("");
         
-        Serial.println("Sample OK: ");
+        //Serial.println("Sample OK: ");
         
         Serial.print("Temperatura: "); Serial.print((int)t); Serial.println(" *C, ");
         Serial.print("Velocità Motore: "); Serial.print((int)v); Serial.println(" %, "); 
@@ -21,6 +23,7 @@ void Serial_Out(byte t, byte u, int v, int l , int p){
 
         Serial.print("Umidità: "); Serial.print((int)u); Serial.println(" %");
 
+      return;
   }
 
   

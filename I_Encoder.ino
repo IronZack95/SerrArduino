@@ -10,21 +10,32 @@ void isr ()  {
     Serial.println("Interrupt");
   }
 
-void Detect(){
-   // Runs if rotation was detected
-    if (TurnDetected)  {
-      PrevPosition = RotaryPosition; // Save previous position in variable
-      if (rotationdirection) {
-        RotaryPosition=RotaryPosition-1;} // decrase Position by 1
-      else {
-        RotaryPosition=RotaryPosition+1;} // increase Position by 1
-      
-      
-      Serial.println("");
-      Serial.print("RotaryPosition: "); Serial.println(RotaryPosition);
-      Serial.println("");
+void Detect_Interrupt(){
+     // Runs if rotation was detected
+      if (TurnDetected)  {
+        PrevPosition = RotaryPosition; // Save previous position in variable
+        if (rotationdirection) {
+          RotaryPosition=RotaryPosition-1;} // decrase Position by 1
+        else {
+          RotaryPosition=RotaryPosition+1;} // increase Position by 1
+        
+        
+        Serial.println("");
+        Serial.print("RotaryPosition: "); Serial.println(RotaryPosition);
+        Serial.println("");
+  
+        
+        TurnDetected = false;  // do NOT repeat IF loop until new rotation detected
+      }
+      return;
+  }
 
-      
-      TurnDetected = false;  // do NOT repeat IF loop until new rotation detected
-    }
+void Detect_Button(){
+      if (!(digitalRead(PinSW))) {   // check if button is pressed
+            if (RotaryPosition == 0) {  // check if button was already pressed
+            } else {
+                RotaryPosition=0; // Reset position to ZERO
+            }
+      }  
+      return;
   }

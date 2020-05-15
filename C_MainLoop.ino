@@ -25,24 +25,24 @@ void loop() {
     
       // comunicazione servo provvisoria
       float posizion = light_percentuale*(MAXSERVO/100);
-      ServoPos((int)posizion);
+      if((int)posizion != posizione) {
+          ServoPos((int)posizion);
+      }
 
       // Stampo i valori Seriali dopo lettura
       Serial_Out(temperature, humidity , velocity_percentuale, light_percentuale, posizione);
       // Stampo i valori LCD dopo lettura
       LCD_Out(temperature, humidity , velocity_percentuale, light_percentuale);
 
-
-      if (!(digitalRead(PinSW))) {   // check if button is pressed
-    if (RotaryPosition == 0) {  // check if button was already pressed
-    } else {
-        RotaryPosition=0; // Reset position to ZERO
-      }
-    }
-
- 
       //Rileva Interrupt
-      Detect();
+      Detect_Interrupt();
+
+      //Rileva Bottone
+      Detect_Button();
+
+      //Rileva Allarme
+      Detect_Allarm();
+
       
       Loop_Serial_div();
       

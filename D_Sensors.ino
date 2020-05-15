@@ -21,6 +21,5 @@ int Lettura_Luce(){
             return ERR_LIGHT;
         }
       
-      
       return OK;    
   }
