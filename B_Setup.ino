@@ -1,17 +1,19 @@
 // INIZIO PROGRAMMA
+
 void setup() {
 
   // inizializzo Porta Seriale
   Serial.begin(9600);
-  Serial.println("");
+  
   Setup_Serial_div();
+  Setup_Serial();
+
+  //carico nella RAM i valori dall'EEPROM
+  EEPROM_to_RAM_Update();
 
   //Inizializzo EEPROM
   //EEPROM_RAM_ResetToDefault();            // <---- Decommento se voglio Le Impostazioni di fabbrica
-  EEPROM_Scan();     // <---- Decommento se voglio lo scan inSerial Monitor della EEPROM
-  
-  //carico nella RAM i valori dall'EEPROM
-  EEPROM_to_RAM_Update();
+  EEPROM_Scan();                          // <---- Decommento se voglio lo scan inSerial Monitor della EEPROM
   
   // Initialize DS3231
   Serial.println("Initialize DS3231");
@@ -24,7 +26,7 @@ void setup() {
   clock.clearAlarm2();
   
   // Inizialize TIME
-  //clock.setDateTime(__DATE__, __TIME__);      // uncomment only for clock reset and reupload
+  //clock.setDateTime(__DATE__, __TIME__);      //<---- uncomment only for clock reset and reupload
 
   // Set Alarm - Every second.
   // DS3231_EVERY_SECOND is available only on Alarm1.
@@ -58,15 +60,22 @@ void setup() {
   // Inizialize righe e colonne LCD
   lcd.begin(2, 16);
   lcd.clear();
+  Setup_LCD();
   
   // Inizialize Servo
   myservo.attach(SERVOPIN);
-
+  
   //Custom Char
   lcd.createChar(0, gradi);
   lcd.createChar(1, alien);
   lcd.createChar(2, plant);
 
-  Setup_Serial_div();
+  //inizializzo servo
+  //last_irrig_fix = (int)dt.minute + 60*(int)dt.hour;
+  InterruttoreServo(false);   // chiudo
+  //GestioneIrrigazione();
 
+  Setup_Serial_div();
+  delay(ATTESASETUP);
+  
 }

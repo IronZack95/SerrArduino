@@ -13,45 +13,55 @@ void MotorDir(bool dir){
         return;
   }
 
+void InterrutoreVentilazione(){
+    if(ventilazione == true){
+            Serial.println("Ventilazione OFF");
+            ventilazione = false;
+    }else{
+            Serial.println("Ventilazione ON");
+            ventilazione = true;
+      }
+  return;
+  }
 
 void Motore(){
 
       //ACCENSIONE  ---------------------------------------------------------------------------------------------
-        if((int)temperature > EEPROM.read(Address_TH) && (int)temperature <= EEPROM.read(Address_MAXTEMP)){
-                //---PWM 
-                if(velocity == 0){                            // Aiuta a partire nel caso parta da fermo
-                      for(int ii = 0; ii <= CicliAvvio ; ii++){
-                        digitalWrite(ENABLE,LOW); //enable off
-                        delay(TimeImpulsiAvvio/2);
-                        analogWrite(ENABLE,ImpulsiAvvio); //enable on    
-                        delay(TimeImpulsiAvvio/2);
-                        direzione = !direzione;
-                        MotorDir(direzione);
-                        //Serial.println(ii);
-                      }  
-                  }            
-                // A REGIME
-                direzione = true;
-                MotorDir(direzione);
-                
-                //calcolo velocità
-                velocity = ((MAXVEL - MINVEL)/(EEPROM.read(Address_MAXTEMP) - EEPROM.read(Address_TH)))*pow(((int)temperature - EEPROM.read(Address_TH)),rapporto)   + MINVEL;
-                
-                //Serial.println(int(velocity));
-                analogWrite(ENABLE,(int)velocity); //half speed    // Velocità a regime
+        if((int)temperature > EEPROM.read(Address_TH) && (int)temperature <= EEPROM.read(Address_MAXTEMP) && ventilazione == true){
+            //---PWM 
+            if(velocity == 0){                            // Aiuta a partire nel caso parta da fermo
+                  for(int ii = 0; ii <= CicliAvvio ; ii++){
+                    digitalWrite(ENABLE,LOW); //enable off
+                    delay(TimeImpulsiAvvio/2);
+                    analogWrite(ENABLE,ImpulsiAvvio); //enable on    
+                    delay(TimeImpulsiAvvio/2);
+                    direzione = !direzione;
+                    MotorDir(direzione);
+                    //Serial.println(ii);
+                  }  
+              }            
+            // A REGIME
+            direzione = true;
+            MotorDir(direzione);
+            
+            //calcolo velocità
+            velocity = ((MAXVEL - MINVEL)/(EEPROM.read(Address_MAXTEMP) - EEPROM.read(Address_TH)))*pow(((int)temperature - EEPROM.read(Address_TH)),rapporto)   + MINVEL;
+            
+            //Serial.println(int(velocity));
+            analogWrite(ENABLE,(int)velocity); //half speed    // Velocità a regime
                
-          }
+        }
   
       // SPEGNIMENTO  ---------------------------------------------------------------------------------------------
-        if((int)temperature <= EEPROM.read(Address_TH) || (int)temperature> EEPROM.read(Address_MAXTEMP)){
-                Serial.println("spengo motore");
-                //---PWM 
-                velocity = 0;
-                digitalWrite(ENABLE,LOW); //enable off
-                if((int)temperature> EEPROM.read(Address_MAXTEMP)){
-                  Serial.println("MAXTEMP SUPERATA - - - - - ERRORE");
-                  return;
-                }
+        if((int)temperature <= EEPROM.read(Address_TH) || (int)temperature> EEPROM.read(Address_MAXTEMP) || ventilazione == false){
+            Serial.println("spengo motore");
+            //---PWM 
+            velocity = 0;
+            digitalWrite(ENABLE,LOW); //enable off
+            if((int)temperature> EEPROM.read(Address_MAXTEMP)){
+              Serial.println("MAXTEMP SUPERATA - - - - - ERRORE");
+              return;
+            }
         }
 
         // gestion cionversoni

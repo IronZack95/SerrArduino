@@ -77,13 +77,18 @@ const short MAXVAR = sizeof(int_table_Address);
 #define MAXLIGHT      1024        // massimo valore codifica luce
 #define MINSERVO      0           // Servo in posizione zero gradi
 #define MAXSERVO      180.        // massimo range servomotore 0 - 180
+#define UNIXDAY       24*60       // numero di minuti in un giorno
 
 //  Vaiabili di servizio
 #define TimeImpulsiAvvio  100     // PERIODO impulsi per avviare il motore
 #define ImpulsiAvvio  200         // velocità istantanea per avviare il motore
 #define CicliAvvio    2           // Numero cicli di impulsi per avviare il motore
 
+#define Gradi         3           // gradi per assestamento servo
+#define CicliFermo    2           // cicli per assestamento servo
+
 // Variabili Tempo
+#define ATTESASETUP    2000          // Secondi in cui il SETUP rimane attivo
 #define ATTESAMENU    10          // Secondi in cui il menù rimane attivo
 #define AUTOMATIC_SAMPLING_RATE   1000      //SAMPLING RATE
 #define UI_SAMPLING_RATE          100 
@@ -98,7 +103,6 @@ Servo myservo;  // twelve servo objects can be created on most boards
 DS3231 clock;
 RTCDateTime dt;
 
-
 // Variabili DHT11
 byte temperature = 0;
 byte humidity = 0; 
@@ -111,35 +115,64 @@ int light_percentuale = 0;
 float velocity = 0;
 int   velocity_percentuale = 0;
 bool  direzione = true;          // true = avanti false = indietro
+bool  ventilazione = true;
 
 // Variabili Servo
 int ultima_posizione = 0;
 int posizione = 0;
-
+bool irrigazione = false;
+short IrrigMod = 1;  
+int last_irrig_fix = 0;
+/*
+  0 - disattivata
+  1 - Irrigazione Mattina Sera
+  2 - Irrigazione Fissa
+*/
 //Variabili RTC Clock
 volatile unsigned long Last_Unix_time = 0;
+// bool Alarm1 = false;
+// bool Alarm2 = false;
+
 //Variabili Interruprs
 volatile boolean TurnDetected;  // need volatile for Interrupts
 volatile boolean rotationdirection;  // CW or CCW rotation
 
 //USER INTERFACE
-volatile boolean UI_Status = false;
+int mod = 0;
+
+/*
+  0 - Automatica
+  1 - Menu
+  2 - Modifica
+  3 - Selezione
+  4 - Conferma
+*/
+
 int   page = 0;
-int   last_page = 0;
+int   Sel = -1;        // -1 per disabilitare 
 byte  last_temperature = 0;
 int   last_light_percentuale = 0;
-bool  Mod = false;             //consente la modifica
-
-
+int   last_RotaryPosition = 0;
 
 //Variabili Encoder
-int RotaryPosition=0;
+int RotaryPosition = 0;
 int PrevPosition;           // Previous Rotary position Value to check accuracy
 int StepsToTake;            // How much to move Stepper
 bool Button = false;
 
-//Custom char
+// codici Seriali
+char scan =     's';
+char reset =    'd';
+char EtoR =     'r';
+char RtoE =     'e';
+char clean =    'c';
+char resetRTC = 't';
+char StopVent = 'v'; 
+char StopServ = 'b';
+char ModVar =   'm';
+const char char_table[] = {scan,reset,EtoR,RtoE,clean,resetRTC,StopVent,StopServ,ModVar};
 
+//Custom char
 byte gradi[8] = {
   B01110,
   B01010,
@@ -209,8 +242,6 @@ const char string_21[] PROGMEM = "    Premi OK    ";
 // pagina 11
 const char string_22[] PROGMEM = "-----USCITA-----";
 const char string_23[] PROGMEM = "    Premi OK    ";
-
-
 
 const char *const string_table[] PROGMEM = {string_0, string_1, string_2, string_3, string_4, string_5, string_6, string_7, string_8,string_9, string_10, string_11, string_12, string_13,string_14, string_15, string_16, string_17, string_18, string_19, string_20, string_21, string_22,string_23};
 const int MAXPAGE = sizeof(string_table)/4;

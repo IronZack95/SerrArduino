@@ -2,13 +2,11 @@ void LCD_Out_UI(){
 
         char buffer[16];  // make sure this is large enough for the largest string it must hold
         
-        page = RotaryPosition;
-        
-        if(page != last_page || temperature != last_temperature || light_percentuale != last_light_percentuale){         // Solo alla variazione di qualche variabile per evitare lo sfarfallio
-      
-            last_page = page;
+        if(temperature != last_temperature || light_percentuale != last_light_percentuale || RotaryPosition != last_RotaryPosition){         // Solo alla variazione di qualche variabile per evitare lo sfarfallio
+            
             last_temperature = temperature;
             last_light_percentuale = light_percentuale;
+            last_RotaryPosition = RotaryPosition;
            
             //Stampo template di base della pagina
             lcd.clear();               // Refresh
@@ -17,31 +15,52 @@ void LCD_Out_UI(){
             lcd.setCursor(0, 1);   
             strcpy_P(buffer, (char *)pgm_read_word(&(string_table[page*2 + 1]))); lcd.print(buffer);     
 
+            //Overlay modifica
+            if(mod == 2 || mod == 3){
+                switch(RotaryPosition){
+                    case 0:  lcd.setCursor(3, 1);  break;
+                    case 1:  lcd.setCursor(12, 1);  break;
+                    case 2:  lcd.setCursor(4, 1);  break;
+                    case 3:  lcd.setCursor(4, 1);  break;
+                    case 4:  lcd.setCursor(12, 1);  break;
+                    case 5:  lcd.setCursor(5, 1);  break;
+                    case 6:  lcd.setCursor(5, 1);  break;
+                    case 7:  lcd.setCursor(1, 1);  break;
+                    case 8:  lcd.setCursor(4, 1);  break;
+                    case 9:  lcd.setCursor(9, 1);  break;
+                    case 10:  lcd.setCursor(12, 1);  break;
+                    case 11:  lcd.setCursor(0, 1);  break;
+                    case 12:  lcd.setCursor(8, 1);  break;
+                    case 13:  lcd.setCursor(5, 1);  break;
+                    case 14:  lcd.setCursor(5, 1);  break;
+                    default:
+                      break;
+                }  
+                //Stampo carattere modifica  
+                lcd.write(byte(1));
+            }
+
             //Stampo overlay
             switch(page){
-              
-                case 0:
+                  case 0:
                      lcd.setCursor(5, 0);    lcd.print((int)temperature); lcd.setCursor(8, 0);    lcd.write(byte(0));  
                      //lcd.setCursor(4, 1);    lcd.print((int)EEPROM.read(Address_TH));   lcd.setCursor(13, 1);    lcd.print((int)EEPROM.read(Address_MAXTEMP));
                      lcd.setCursor(4, 1);    lcd.print((int)int_table[0]);   lcd.setCursor(13, 1);    lcd.print((int)int_table[1]);
                   break;
-                  
-                case 1:                                     
+                  case 1:                                     
                      //lcd.setCursor(5, 1);    lcd.print((int)EEPROM.read(Address_MINTEMP));  lcd.setCursor(8, 1);    lcd.write(byte(0)); 
                      lcd.setCursor(5, 1);    lcd.print((int)int_table[2]);  lcd.setCursor(8, 1);    lcd.write(byte(0));
                   break;
-    
-                case 2:
+                  case 2:
                      lcd.setCursor(11, 0);    lcd.print((int)humidity);
                      //lcd.setCursor(5, 1);    lcd.print((int)EEPROM.read(Address_MINUMID));   lcd.setCursor(13, 1);    lcd.print((int)EEPROM.read(Address_MAXUMID));
                      lcd.setCursor(5, 1);    lcd.print((int)int_table[3]);   lcd.setCursor(13, 1);    lcd.print((int)int_table[4]);
                   break;
-                 
-                case 3:
+                  case 3:
                      //lcd.setCursor(6, 1);    lcd.print((int)EEPROM.read(Address_PERVENT));
                      lcd.setCursor(6, 1);    lcd.print((int)int_table[5]);
                   break;
-                 case 4:
+                  case 4:
                      //lcd.setCursor(6, 1);    lcd.print((int)EEPROM.read(Address_DURVENT));
                      lcd.setCursor(6, 1);    lcd.print((int)int_table[6]);
                   break;
@@ -66,23 +85,15 @@ void LCD_Out_UI(){
                   case 9:
                       lcd.setCursor(7, 1);    lcd.print((int)light_percentuale);
                   break;
-                  /* 
-                case 11:
-                      lcd.write(byte(1));   lcd.setCursor(8, 0);  lcd.write(byte(2));
-                    // lcd.print(alien); 
-                  break;
-                */
-                default:
+                  default:
                   break;
             }
-
+          
         }
 
-        
         return;
   };
 
-  
 void Serial_Out_Auto(byte t, byte u, int v, int l , int p){
 
         // Print to Serial
@@ -111,7 +122,6 @@ void Serial_Out_Auto(byte t, byte u, int v, int l , int p){
       return;
   }
 
-  
 void LCD_Out_Auto(byte t, byte u, int v, int l){
   
         // Print a message to the LCD.       
@@ -127,8 +137,6 @@ void LCD_Out_Auto(byte t, byte u, int v, int l){
         
         return;
 }
-
-
 
 void Error_Serial(int err){
         
@@ -148,6 +156,19 @@ void Error_Serial(int err){
         }
   
         Error_Serial_div();
+        return;
+  }
+
+void Setup_LCD(){
+         lcd.clear();
+         lcd.setCursor(0, 0);    
+         lcd.print(" -- STARTING -- ");
+         return;
+  }
+
+void Setup_Serial(){
+        Serial.println("");
+        Serial.println("ooooooooooooo SETUP ooooooooooooo");
         return;
   }
 

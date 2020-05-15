@@ -1,16 +1,13 @@
 void RealTimeClock(){
-  
+      //Aggiorna l'orologio
       dt = clock.getDateTime();
-      
       return;
   }
 
-  
 void UItoAUTOMATIC(){
     // verifico se nulla viene premuto per il tempo ATTESAMENU
     if( abs(dt.unixtime - Last_Unix_time) >= ATTESAMENU){
-        UI_Status = false;      //ritorno alla modalità automatica
-        Mod = false;
+        mod = 0;
         RotaryPosition=0;
       }
     return;
@@ -18,23 +15,22 @@ void UItoAUTOMATIC(){
 
 void Detect_Allarm(){
       // Call isAlarm1(false) if you want clear alarm1 flag manualy by clearAlarm1();
-      if (clock.isAlarm1())
-      {
+      if (clock.isAlarm1()){
         Serial.println("ALARM 1 TRIGGERED!");
-      }
+        }
     
       // Call isAlarm2(false) if you want clear alarm1 flag manualy by clearAlarm2();
-      if (clock.isAlarm2())
-      {
+      if (clock.isAlarm2()){
         Serial.println("ALARM 2 TRIGGERED!");
-      }
+        //Gestisco l'irrigazione ogni minuto
+        GestioneIrrigazione();
+        }
       
     return;
   }
 
 
-
-
+/*
 void checkAlarms(){
   RTCAlarmTime a1;  
   RTCAlarmTime a2;
@@ -113,3 +109,4 @@ void checkAlarms(){
     Serial.println("Alarm2 is disarmed.");
   }
 }
+*/
