@@ -41,3 +41,42 @@ void LCD_Out(byte t, byte u, int v, int l){
 }
 
 void LCD_Menu();
+
+void Error_Serial(int err){
+        
+        switch(err){
+          
+            case ERR_DHT:
+                  Serial.println("ERRORE  - LETTURA SENSORE TEMPERATURA");
+              break;
+              
+            case ERR_LIGHT:
+                Serial.println("ERRORE  - LETTURA FOTORESISTENZA");
+            break;
+            
+            default:
+                  Serial.println("ERRORE NON IDENTIFICATO");
+              break;
+        }
+  
+        Error_Serial_div();
+        return;
+  }
+
+void Loop_Serial_div(){
+        // start working...
+        Serial.println("=================================");
+        return;
+  }
+
+void Setup_Serial_div(){
+        // start working...
+        Serial.println("*********************************");
+        return;
+  }
+  
+void Error_Serial_div(){
+        // start working...
+        Serial.println("ooooooooooooooooooooooooooooooooo");
+        return;
+  }

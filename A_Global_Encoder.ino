@@ -7,32 +7,6 @@
 #include <DS3231.h>
 
 
-// for DHT11, 
-//      VCC: 5V
-//      GND: GND
-//      DATA: 2
-
-/************************
-Exercise the motor using
-the L293D chip
-************************/
-/*
-  The circuit:
- * LCD RS pin to digital pin 7
- * LCD Enable pin to digital pin 8
- * LCD D4 pin to digital pin 9
- * LCD D5 pin to digital pin 10
- * LCD D6 pin to digital pin 11
- * LCD D7 pin to digital pin 12
- * LCD R/W pin to ground
- * LCD VSS pin to ground
- * LCD VCC pin to 5V
- * 10K resistor:
- * ends to +5V and ground
- * wiper to LCD VO pin (pin 3)
-*/
-
-
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
  
@@ -43,6 +17,15 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define LIGHTPIN 0
 #define pinDHT11 13
 #define SERVOPIN 6
+#define PinCLK 2
+#define PinDT 15
+#define PinSW 16
+
+// define Error
+#define OK  0
+#define ERR_DHT 1
+#define ERR_LIGHT 2
+
 SimpleDHT11 dht11;
 
 // Definizioni Globali
@@ -83,7 +66,6 @@ bool direzione = true; // true = avanti false = indietro
 int ultima_posizione = 0;
 int posizione = 0;
 
-
 //Variabili RTC Clock
 //int Last_hour = 0;
 //int Last_minute = 0;
@@ -92,6 +74,15 @@ int posizione = 0;
 int hour = 0;
 int minute = 0;
 int second = 0;
+
+//Variabili Interruprs
+volatile boolean TurnDetected;  // need volatile for Interrupts
+volatile boolean rotationdirection;  // CW or CCW rotation
+
+//Variabili Encoder
+int RotaryPosition=0;
+int PrevPosition;     // Previous Rotary position Value to check accuracy
+int StepsToTake;      // How much to move Stepper
 
 
 //-------------------------------INIZIO PROGRAMMA--------------------------------
