@@ -73,7 +73,7 @@ const short MAXVAR = sizeof(int_table_Address);
 // Definizioni costanti Globali
 #define rapporto      1           // rapporto della curva
 #define MAXVEL        255         // massima velocità
-#define MINVEL        100         // minima velocità
+#define MINVEL        250         // minima velocità
 #define MAXLIGHT      1024        // massimo valore codifica luce
 #define MINSERVO      0           // Servo in posizione zero gradi
 #define MAXSERVO      180.        // massimo range servomotore 0 - 180
