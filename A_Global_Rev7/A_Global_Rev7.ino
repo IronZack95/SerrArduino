@@ -11,11 +11,11 @@
 
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
- 
+
 // define pin
 #define ENABLE    5
-#define DIRA      3
-#define DIRB      4
+//#define DIRA      3
+//#define DIRB      4
 #define LIGHTPIN  0
 #define pinDHT11  13
 #define SERVOPIN  6
@@ -48,21 +48,21 @@ SimpleDHT11 dht11;
 #define DURIRGZFIX    1           // Durata di tempo per cui avviene la irrigazione
 
 // Indirizzi in EEPROM
-#define Address_TH            0         
-#define Address_MAXTEMP       1        
-#define Address_MINTEMP       2          
-#define Address_MINUMID       3         
-#define Address_MAXUMID       4         
-#define Address_PERVENT       5        
-#define Address_DURVENT       6      
-#define Address_MATNSTRT_H    7        
-#define Address_MATNSTRT_M    8      
-#define Address_SERASTRT_H    9       
-#define Address_SERASTRT_M    10        
-#define Address_DURIRRIG_H    11        
-#define Address_DURIRRIG_M    12      
-#define Address_PERIRGZFIX    13    
-#define Address_DURIRGZFIX    14 
+#define Address_TH            0
+#define Address_MAXTEMP       1
+#define Address_MINTEMP       2
+#define Address_MINUMID       3
+#define Address_MAXUMID       4
+#define Address_PERVENT       5
+#define Address_DURVENT       6
+#define Address_MATNSTRT_H    7
+#define Address_MATNSTRT_M    8
+#define Address_SERASTRT_H    9
+#define Address_SERASTRT_M    10
+#define Address_DURIRRIG_H    11
+#define Address_DURIRRIG_M    12
+#define Address_PERIRGZFIX    13
+#define Address_DURIRGZFIX    14
 
 //Variabili modificabili nella RAM
 byte int_table[] = {TH,MAXTEMP,MINTEMP,MINUMID,MAXUMID,PERVENT,DURVENT,MATNSTRT_H,MATNSTRT_M,SERASTRT_H,SERASTRT_M,DURIRRIG_H,DURIRRIG_M,PERIRGZFIX,DURIRGZFIX};
@@ -73,16 +73,15 @@ const short MAXVAR = sizeof(int_table_Address);
 // Definizioni costanti Globali
 #define rapporto      1           // rapporto della curva
 #define MAXVEL        255         // massima velocità
-#define MINVEL        250         // minima velocità
+#define MINVEL        50          // minima velocità
 #define MAXLIGHT      1024        // massimo valore codifica luce
 #define MINSERVO      0           // Servo in posizione zero gradi
 #define MAXSERVO      180.        // massimo range servomotore 0 - 180
 #define UNIXDAY       24*60       // numero di minuti in un giorno
 
 //  Vaiabili di servizio
-#define TimeImpulsiAvvio  100     // PERIODO impulsi per avviare il motore
-#define ImpulsiAvvio  200         // velocità istantanea per avviare il motore
-#define CicliAvvio    2           // Numero cicli di impulsi per avviare il motore
+#define TimeAvvio  500            // PERIODO per avviare il motore
+#define StepAvvio  4              // step in cui si avvia il motore
 
 #define Gradi         3           // gradi per assestamento servo
 #define CicliFermo    2           // cicli per assestamento servo
@@ -91,9 +90,9 @@ const short MAXVAR = sizeof(int_table_Address);
 #define ATTESASETUP    2000          // Secondi in cui il SETUP rimane attivo
 #define ATTESAMENU    10          // Secondi in cui il menù rimane attivo
 #define AUTOMATIC_SAMPLING_RATE   1000      //SAMPLING RATE
-#define UI_SAMPLING_RATE          100 
+#define UI_SAMPLING_RATE          100
 int skip = 0;                      // contatore che permette l'automazione
-int del = AUTOMATIC_SAMPLING_RATE; // SAMPLING RATE 
+int del = AUTOMATIC_SAMPLING_RATE; // SAMPLING RATE
 
 
 // create servo object to control a servo
@@ -105,7 +104,7 @@ RTCDateTime dt;
 
 // Variabili DHT11
 byte temperature = 0;
-byte humidity = 0; 
+byte humidity = 0;
 
 // Variabili fotocella
 int light = 0;
@@ -114,14 +113,13 @@ int light_percentuale = 0;
 // Variabili Motore
 float velocity = 0;
 int   velocity_percentuale = 0;
-bool  direzione = true;          // true = avanti false = indietro
 bool  ventilazione = true;
 
 // Variabili Servo
 int ultima_posizione = 0;
 int posizione = 0;
 bool irrigazione = false;
-short IrrigMod = 1;  
+short IrrigMod = 1;
 int last_irrig_fix = 0;
 /*
   0 - disattivata
@@ -149,7 +147,7 @@ int mod = 0;
 */
 
 int   page = 0;
-int   Sel = -1;        // -1 per disabilitare 
+int   Sel = -1;        // -1 per disabilitare
 byte  last_temperature = 0;
 int   last_light_percentuale = 0;
 int   last_RotaryPosition = 0;
@@ -167,7 +165,7 @@ char EtoR =     'r';
 char RtoE =     'e';
 char clean =    'c';
 char resetRTC = 't';
-char StopVent = 'v'; 
+char StopVent = 'v';
 char StopServ = 'b';
 char ModVar =   'm';
 const char char_table[] = {scan,reset,EtoR,RtoE,clean,resetRTC,StopVent,StopServ,ModVar};
@@ -210,10 +208,10 @@ byte plant[8] = {
 const char string_0[] PROGMEM = "Temp:    C      "; // "String N" etc are strings to store - change to suit.
 const char string_1[] PROGMEM = "TH:     MAX:    ";
 // pagina 1
-const char string_2[] PROGMEM = "Riscaldamento:  "; 
+const char string_2[] PROGMEM = "Riscaldamento:  ";
 const char string_3[] PROGMEM = "MIN:     C      ";
 // pagina 2
-const char string_4[] PROGMEM = "Umidita':     % "; 
+const char string_4[] PROGMEM = "Umidita':     % ";
 const char string_5[] PROGMEM = "MIN:    MAX:    ";
 // pagina 3
 const char string_6[] PROGMEM = "Ventilazione:   ";
@@ -235,7 +233,7 @@ const char string_16[] PROGMEM = "Irrigazione: fix";
 const char string_17[] PROGMEM = "Per:     minuti ";
 // pagina 9
 const char string_18[] PROGMEM = "Illuminazione:  ";
-const char string_19[] PROGMEM = "Stato:    %     "; 
+const char string_19[] PROGMEM = "Stato:    %     ";
 // pagina 10
 const char string_20[] PROGMEM = "----MODIFICA----";
 const char string_21[] PROGMEM = "    Premi OK    ";
