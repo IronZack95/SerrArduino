@@ -1,7 +1,7 @@
 void LCD_Out_UI(){
 
         char buffer[16];  // make sure this is large enough for the largest string it must hold
-        
+        int posizione_cursore = -1;
         if(temperature != last_temperature || light_percentuale != last_light_percentuale || RotaryPosition != last_RotaryPosition){         // Solo alla variazione di qualche variabile per evitare lo sfarfallio
             
             last_temperature = temperature;
@@ -15,31 +15,12 @@ void LCD_Out_UI(){
             lcd.setCursor(0, 1);   
             strcpy_P(buffer, (char *)pgm_read_word(&(string_table[page*2 + 1]))); lcd.print(buffer);     
 
-            //Overlay modifica
-            if(mod == 2 || mod == 3){
-                switch(RotaryPosition){
-                    case 0:  lcd.setCursor(3, 1);  break;
-                    case 1:  lcd.setCursor(12, 1);  break;
-                    case 2:  lcd.setCursor(4, 1);  break;
-                    case 3:  lcd.setCursor(4, 1);  break;
-                    case 4:  lcd.setCursor(12, 1);  break;
-                    case 5:  lcd.setCursor(5, 1);  break;
-                    case 6:  lcd.setCursor(5, 1);  break;
-                    case 7:  lcd.setCursor(1, 1);  break;
-                    case 8:  lcd.setCursor(4, 1);  break;
-                    case 9:  lcd.setCursor(9, 1);  break;
-                    case 10:  lcd.setCursor(12, 1);  break;
-                    case 11:  lcd.setCursor(0, 1);  break;
-                    case 12:  lcd.setCursor(8, 1);  break;
-                    case 13:  lcd.setCursor(5, 1);  break;
-                    case 14:  lcd.setCursor(5, 1);  break;
-                    default:
-                      break;
-                }  
-                //Stampo carattere modifica  
-                lcd.write(byte(1));
-            }
-
+            
+            
+            if(mod == 0 || mod == 1){
+              lcd.noCursor();
+              }
+              
             //Stampo overlay
             switch(page){
                   case 0:
@@ -88,7 +69,37 @@ void LCD_Out_UI(){
                   default:
                   break;
             }
-          
+            
+            //Overlay modifica
+              if(mod == 2 || mod == 3){
+                  if(mod == 2){                           // se sono in modalità 2 ovvero nel pannello modifica mi interessa spostare il cursore
+                   posizione_cursore = RotaryPosition;
+                  }else if (mod == 3){ 
+                    posizione_cursore = Sel;              // se invece sono in modalità 3 e sto cambiando il valore della variabile, mi interessa avere il cursore fisso
+                  }
+                
+                  switch(posizione_cursore){
+                      case 0:  lcd.setCursor(4, 1);  break;
+                      case 1:  lcd.setCursor(13, 1);  break;
+                      case 2:  lcd.setCursor(5, 1);  break;
+                      case 3:  lcd.setCursor(5, 1);  break;
+                      case 4:  lcd.setCursor(13, 1);  break;
+                      case 5:  lcd.setCursor(6, 1);  break;
+                      case 6:  lcd.setCursor(6, 1);  break;
+                      case 7:  lcd.setCursor(2, 1);  break;
+                      case 8:  lcd.setCursor(5, 1);  break;
+                      case 9:  lcd.setCursor(10, 1);  break;
+                      case 10:  lcd.setCursor(13, 1);  break;
+                      case 11:  lcd.setCursor(1, 1);  break;
+                      case 12:  lcd.setCursor(9, 1);  break;
+                      case 13:  lcd.setCursor(6, 1);  break;
+                      case 14:  lcd.setCursor(6, 1);  break;
+                      default:
+                        break;
+                  }  
+                  //Stampo carattere modifica  
+                  lcd.cursor();
+              }
         }
 
         return;
@@ -126,6 +137,7 @@ void LCD_Out_Auto(byte t, byte u, int v, int l){
   
         // Print a message to the LCD.       
         lcd.clear();
+        lcd.noCursor();
         lcd.setCursor(0, 0);
         lcd.print("Temp:");   lcd.print((int)t);
         lcd.setCursor(8, 0);

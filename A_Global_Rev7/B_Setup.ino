@@ -54,8 +54,9 @@ void setup() {
     
   // Inizialize Motore
   pinMode(ENABLE,OUTPUT);
-  pinMode(DIRA,OUTPUT);
-  pinMode(DIRB,OUTPUT);
+
+  // Inizialize RELE'
+  //pinMode(RELAY,OUTPUT);
 
   // Inizialize righe e colonne LCD
   lcd.begin(2, 16);
