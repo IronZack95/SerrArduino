@@ -23,7 +23,6 @@ void Motore(){
               digitalWrite(ENABLE,LOW); //enable off
               for(int ii = 0; ii <= StepAvvio ; ii++){
                 analogWrite(ENABLE,(int)((int)new_velocity/StepAvvio)*ii); //enable on
-                Serial.println((int)((int)new_velocity/StepAvvio)*ii);
                 delay(TimeAvvio/StepAvvio);
               }
           }

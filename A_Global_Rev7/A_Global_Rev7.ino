@@ -15,7 +15,7 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 // define pin
 #define ENABLE    5
 //#define DIRA      3
-//#define DIRB      4
+#define RELAY     4
 #define LIGHTPIN  0
 #define pinDHT11  13
 #define SERVOPIN  6
@@ -142,7 +142,7 @@ int mod = 0;
   0 - Automatica
   1 - Menu
   2 - Modifica
-  3 - Selezione
+  3 - Selezione variabile scelta
   4 - Conferma
 */
 
