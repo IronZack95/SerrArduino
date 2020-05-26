@@ -22,11 +22,13 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define PinCLK    2
 #define PinDT     15
 #define PinSW     16
+#define ANLGTMP   17
 
 // define Error
 #define OK        0
 #define ERR_DHT   1
 #define ERR_LIGHT 2
+#define ERR_TEMP  3
 
 SimpleDHT11 dht11;
 
@@ -74,7 +76,7 @@ const short MAXVAR = sizeof(int_table_Address);
 #define rapporto      1           // rapporto della curva
 #define MAXVEL        255         // massima velocità
 #define MINVEL        50          // minima velocità
-#define MAXLIGHT      1024        // massimo valore codifica luce
+#define MAXADC        1024        // massimo valore codifica luce
 #define MINSERVO      0           // Servo in posizione zero gradi
 #define MAXSERVO      180.        // massimo range servomotore 0 - 180
 #define UNIXDAY       24*60       // numero di minuti in un giorno
@@ -109,6 +111,9 @@ byte humidity = 0;
 // Variabili fotocella
 int light = 0;
 int light_percentuale = 0;
+
+// Temperatura Analogica
+float Analog_Temp = 0;
 
 // Variabili Motore
 float velocity = 0;
@@ -169,8 +174,8 @@ char StopVent = 'v';
 char StopServ = 'b';
 char ModVar =   'm';
 const char char_table[] = {scan,reset,EtoR,RtoE,clean,resetRTC,StopVent,StopServ,ModVar};
-
-//Custom char
+/*
+//Custom char       Se dovessero servire
 byte gradi[8] = {
   B01110,
   B01010,
@@ -203,7 +208,7 @@ byte plant[8] = {
   B00100,
   B01110
 };
-
+*/
 // pagina 0
 const char string_0[] PROGMEM = "Temp:    C      "; // "String N" etc are strings to store - change to suit.
 const char string_1[] PROGMEM = "TH:     MAX:    ";

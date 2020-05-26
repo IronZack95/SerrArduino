@@ -105,7 +105,7 @@ void LCD_Out_UI(){
         return;
   };
 
-void Serial_Out_Auto(byte t, byte u, int v, int l , int p){
+void Serial_Out_Auto(byte t1, byte t2, byte u, int v, int l , int p){
 
         // Print to Serial
 
@@ -122,7 +122,8 @@ void Serial_Out_Auto(byte t, byte u, int v, int l , int p){
         
         //Serial.println("Sample OK: ");
         
-        Serial.print("Temperatura: "); Serial.print((int)t); Serial.println(" *C, ");
+        Serial.print("Temperatura DHT: "); Serial.print((int)t1); Serial.println(" *C, ");
+        Serial.print("Temperatura Analog: "); Serial.print((int)t2); Serial.println(" *C, ");
         Serial.print("Velocità Motore: "); Serial.print((int)v); Serial.println(" %, "); 
         
         Serial.print("Luce: "); Serial.print((int)l); Serial.println(" %, ");
@@ -155,13 +156,17 @@ void Error_Serial(int err){
         switch(err){
           
             case ERR_DHT:
-                  Serial.println("ERRORE  - LETTURA SENSORE TEMPERATURA");
+                  Serial.println("ERRORE  - LETTURA DHT11");
               break;
               
             case ERR_LIGHT:
                 Serial.println("ERRORE  - LETTURA FOTORESISTENZA");
             break;
-            
+
+            case ERR_TEMP:
+                  Serial.println("ERRORE  - LETTURA SENSORE TEMPERATURA");
+              break;
+              
             default:
                   Serial.println("ERRORE NON IDENTIFICATO");
               break;

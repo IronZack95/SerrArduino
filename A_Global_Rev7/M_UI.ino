@@ -7,7 +7,7 @@ void UI(){
   }
 
 int Automatic(){
-  
+
       // lettura sensori
       int err = OK;
       
@@ -22,7 +22,13 @@ int Automatic(){
           Error_Serial(ERR_LIGHT);
           return err;
         }  
-      
+
+      err = Lettura_Temperatura();
+      if(err == ERR_TEMP){
+          Error_Serial(ERR_TEMP);
+          return err;
+        }  
+
       // comunicazione Motore
       
       Motore();
@@ -34,7 +40,7 @@ int Automatic(){
       // Stampa
       if(mod == 0){
           // Stampo i valori Seriali dopo lettura
-          Serial_Out_Auto(temperature, humidity , velocity_percentuale, light_percentuale, posizione);
+          Serial_Out_Auto(temperature, Analog_Temp , humidity , velocity_percentuale, light_percentuale, posizione);
           // Stampo i valori LCD dopo lettura
           LCD_Out_Auto(temperature, humidity , velocity_percentuale, light_percentuale);
       }

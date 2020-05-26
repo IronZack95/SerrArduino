@@ -130,6 +130,12 @@ void Gestione_Bottone(){
             Sel = -1;
             RotaryPosition=0;
           }
+
+          if(mod == 1 && page == MAXPAGE-1){       // esco dal menu
+            Serial.println("USCITA");
+            mod = 0;
+            Sel = -1;
+          }
            
       //}
     return;
