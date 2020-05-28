@@ -36,7 +36,6 @@ void Motore(){
 
       // SPEGNIMENTO  ---------------------------------------------------------------------------------------------
         if((int)temperature <= EEPROM.read(Address_TH) || (int)temperature> EEPROM.read(Address_MAXTEMP) || ventilazione == false){
-            Serial.println("spengo motore");
             //---PWM
             velocity = 0;
             digitalWrite(ENABLE,LOW); //enable off

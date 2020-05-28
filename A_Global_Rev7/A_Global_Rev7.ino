@@ -14,15 +14,15 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
 // define pin
 #define ENABLE    5
-//#define DIRA      3
-#define RELAY     4
+#define TELECOM   4
+#define RELAY     3
 #define LIGHTPIN  0
 #define pinDHT11  13
 #define SERVOPIN  6
 #define PinCLK    2
-#define PinDT     15
-#define PinSW     16
-#define ANLGTMP   17
+#define PinDT     16
+#define PinSW     17
+#define ANLGTMP   15
 
 // define Error
 #define OK        0
@@ -174,7 +174,7 @@ char StopVent = 'v';
 char StopServ = 'b';
 char ModVar =   'm';
 const char char_table[] = {scan,reset,EtoR,RtoE,clean,resetRTC,StopVent,StopServ,ModVar};
-/*
+
 //Custom char       Se dovessero servire
 byte gradi[8] = {
   B01110,
@@ -186,7 +186,7 @@ byte gradi[8] = {
   B00000,
   B00000
 };
-
+/*
 byte alien[8] = {
   B00000,
   B00000,

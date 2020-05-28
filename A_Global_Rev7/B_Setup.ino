@@ -65,12 +65,13 @@ void setup() {
   
   // Inizialize Servo
   myservo.attach(SERVOPIN);
-/* 
+
   //Custom Char   Se dovessero servire
   lcd.createChar(0, gradi);
+  /*
   lcd.createChar(1, alien);
   lcd.createChar(2, plant);
-*/
+  */
   //inizializzo servo
   //last_irrig_fix = (int)dt.minute + 60*(int)dt.hour;
   InterruttoreServo(false);   // chiudo
