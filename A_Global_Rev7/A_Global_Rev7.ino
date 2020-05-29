@@ -7,6 +7,7 @@
 #include <DS3231.h>
 #include <EEPROM.h>
 #include <avr/pgmspace.h>
+//#include <IRremote.h>
 
 
 // initialize the library with the numbers of the interface pins
@@ -14,7 +15,7 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
 // define pin
 #define ENABLE    5
-#define TELECOM   4
+//#define TELECOM   4
 #define RELAY     3
 #define LIGHTPIN  0
 #define pinDHT11  13
@@ -103,7 +104,11 @@ Servo myservo;  // twelve servo objects can be created on most boards
 // create Clock Object
 DS3231 clock;
 RTCDateTime dt;
-
+/*
+// IR Reciver Object
+IRrecv irrecv(TELECOM);     // create instance of 'irrecv'
+decode_results results;      // create instance of 'decode_results'
+*/
 // Variabili DHT11
 byte temperature = 0;
 byte humidity = 0;

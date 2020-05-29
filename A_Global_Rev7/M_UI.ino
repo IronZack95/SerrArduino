@@ -29,6 +29,8 @@ int Automatic(){
           return err;
         }  
 
+      //ReciverLoop();  
+
       // comunicazione Motore
       
       Motore();

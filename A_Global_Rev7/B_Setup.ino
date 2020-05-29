@@ -58,7 +58,11 @@ void setup() {
   // Inizialize RELE'
   pinMode(RELAY,OUTPUT);
   Relay(false);
-  
+/*
+  // Inizialisso IR
+  Serial.println("IR Receiver Button Decode"); 
+  irrecv.enableIRIn(); // Start the receiver
+*/
   // Inizialize righe e colonne LCD
   lcd.begin(2, 16);
   lcd.clear();
