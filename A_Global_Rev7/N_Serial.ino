@@ -38,6 +38,8 @@ String clean =  "clean";
            StopServo();
       }else if(IncomingChar == ModVar){
            ModificaVariabili();
+      }else if(IncomingChar == relay){
+           InterruttoreRelay();
       }
    }
     return;

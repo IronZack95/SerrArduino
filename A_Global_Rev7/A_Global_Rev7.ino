@@ -136,6 +136,9 @@ volatile unsigned long Last_Unix_time = 0;
 // bool Alarm1 = false;
 // bool Alarm2 = false;
 
+//Variabili Relè
+bool Relay_State = false;             // Relè acceso o spento
+
 //Variabili Interruprs
 volatile boolean TurnDetected;  // need volatile for Interrupts
 volatile boolean rotationdirection;  // CW or CCW rotation
@@ -173,6 +176,7 @@ char resetRTC = 't';
 char StopVent = 'v';
 char StopServ = 'b';
 char ModVar =   'm';
+char relay =    'y';
 const char char_table[] = {scan,reset,EtoR,RtoE,clean,resetRTC,StopVent,StopServ,ModVar};
 
 //Custom char       Se dovessero servire

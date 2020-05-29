@@ -32,6 +32,10 @@ int Automatic(){
       // comunicazione Motore
       
       Motore();
+
+      // comunicazione Relè
+
+      GestioneRelay();
       
 
       // comunicazione Servo

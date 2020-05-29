@@ -16,7 +16,7 @@ void UItoAUTOMATIC(){
 void Detect_Allarm(){
       // Call isAlarm1(false) if you want clear alarm1 flag manualy by clearAlarm1();
       if (clock.isAlarm1()){
-        Serial.println("ALARM 1 TRIGGERED!");
+        //Serial.println("ALARM 1 TRIGGERED!");
         }
     
       // Call isAlarm2(false) if you want clear alarm1 flag manualy by clearAlarm2();
