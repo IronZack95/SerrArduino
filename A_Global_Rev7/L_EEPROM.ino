@@ -13,22 +13,22 @@ void EEPROM_Clean(){
           EEPROM.update(int_table_Address[i], 0);
       }
       
-      Serial.println("EEPROM CLEAN - DONE"); 
+      Serial.println(F("EEPROM CLEAN - DONE")); 
       return;
 
   }
 
 void EEPROM_Scan(){
-      Serial.println("EEPROM Scan");
-      Serial.println("Address       RAM   EEPROM");
+      Serial.println(F("EEPROM Scan"));
+      Serial.println(F("Address       RAM   EEPROM"));
 
       for (int i = 0 ; i < MAXVAR ; i++) {
           byte value = EEPROM.read(int_table_Address[i]);
           
           Serial.print(int_table_Address[i]);
-          Serial.print("\t"); Serial.print("\t");
+          Serial.print(F("\t")); Serial.print(F("\t"));
           Serial.print(int_table[i]);
-          Serial.print("\t");
+          Serial.print(F("\t"));
           Serial.print(value);
           Serial.println();
          
@@ -49,11 +49,11 @@ void EEPROM_RAM_ResetToDefault(){
       }
       
       return;
-      Serial.println("Reset To Default"); 
+      Serial.println(F("Reset To Default")); 
   }
   
 void  EEPROM_to_RAM_Update(){
-       Serial.println("RAM Update");
+       Serial.println(F("RAM Update"));
        for (int i = 0 ; i < MAXVAR ; i++) {
           if(int_table[i] != EEPROM.read(int_table_Address[i])){
               int_table[i] = EEPROM.read(int_table_Address[i]); 
@@ -63,7 +63,7 @@ void  EEPROM_to_RAM_Update(){
   }
 
 void  RAM_to_EEPROM_Update(){
-       Serial.println("EEPROM Update");
+       Serial.println(F("EEPROM Update"));
        for (int i = 0; i < MAXVAR; i++)
         EEPROM.update(int_table_Address[i], int_table[i]);
    

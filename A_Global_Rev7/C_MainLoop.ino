@@ -17,6 +17,9 @@ void loop() {
       //Rileva Allarme
       Detect_Allarm();
 
+      //Rileva Telecomando
+      //Detect_Reciver();
+
       if(mod != 0){                     //-----------  ENTRA IN MODALITA' UI
 
              UI(); 
@@ -39,10 +42,11 @@ void loop() {
       }else{                                      //-----------  ENTRA IN MODALITA' AUTOMATICA
             //Esegue automatismo
             err = Automatic();
+            /*
             if(err != OK){
               return;
               }
-
+            */
             Loop_Serial_div();      // Divisorio  
             del = AUTOMATIC_SAMPLING_RATE;      // Sampling Rate
       }

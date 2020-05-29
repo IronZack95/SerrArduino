@@ -10,7 +10,7 @@ void isr ()  {
     // Salva time dell'ultimo evento
     Last_Unix_time = dt.unixtime;
     TurnDetected = true;
-    Serial.println("Rotary Interrupt");
+    Serial.println(F("Rotary Interrupt"));
   }
 
 void Detect_Interrupt(){
@@ -26,10 +26,10 @@ void Detect_Interrupt(){
         Gestione_Rotary();
 
         
-        Serial.println("");
-        Serial.print("RotaryPosition: "); Serial.println(RotaryPosition);
-        Serial.print("MAXPAGE: "); Serial.println(MAXPAGE-1); Serial.print("modalità: "); Serial.println(mod);
-        Serial.println("");
+        Serial.println();
+        Serial.print(F("RotaryPosition: ")); Serial.println(RotaryPosition);
+        Serial.print(F("MAXPAGE: ")); Serial.println(MAXPAGE-1); Serial.print(F("modalità: ")); Serial.println(mod);
+        Serial.println();
         
         TurnDetected = false;  // do NOT repeat IF loop until new rotation detected
       }
@@ -85,7 +85,7 @@ void Detect_Button(){
       if (!(digitalRead(PinSW))){   // check if button is pressed
         if(Button == false){          // check se l'evento del bottone è già avvenuto
            Button = true;
-           Serial.println("Button Interrupt");
+           Serial.println(F("Button Interrupt"));
            //Gestione Bottone
            Gestione_Bottone();
            // Salva time dell'ultimo evento
@@ -101,7 +101,7 @@ void Gestione_Bottone(){
     //if(Button == true){
     
           if(mod == 0){       // entro in modalità  MENU
-            Serial.println("MODALITA MENU'");
+            Serial.println(F("MODALITA MENU'"));
             mod = 1;
             Sel = -1;
             page = 0;
@@ -110,21 +110,21 @@ void Gestione_Bottone(){
 
           //Gestione Buttone
           if(mod == 3){       // Confermo cambiamento
-            Serial.println("MODIFICA EFFETTUATA");
+            Serial.println(F("MODIFICA EFFETTUATA"));
             RAM_to_EEPROM_Update();
             mod = 0;
             Sel = -1;      
           }
           
           if(mod == 2){       // entro in modalità  selezione
-            Serial.println("MODALITA SELEZIONE");
+            Serial.println(F("MODALITA SELEZIONE"));
             mod = 3;
             Sel = RotaryPosition;
             RotaryPosition = int_table[Sel];
           }
 
           if(mod == 1 && page == MAXPAGE-2){       // entro in modalità  Modifica
-            Serial.println("MODALITA MODIFICA");
+            Serial.println(F("MODALITA MODIFICA"));
             mod = 2;
             page = 0;
             Sel = -1;
@@ -132,7 +132,7 @@ void Gestione_Bottone(){
           }
 
           if(mod == 1 && page == MAXPAGE-1){       // esco dal menu
-            Serial.println("USCITA");
+            Serial.println(F("USCITA"));
             mod = 0;
             Sel = -1;
           }

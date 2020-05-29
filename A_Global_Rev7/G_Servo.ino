@@ -57,7 +57,7 @@ void ServoLight(){
 
 void GestioneIrrigazione(){
   
-    Serial.println("GESTIONE IRRIGAZIONE");
+    Serial.println(F("GESTIONE IRRIGAZIONE"));
     int unixtime =  (int)dt.minute + 60*(int)dt.hour;
     //Serial.println(unixtime);
     int starttimeM =  (int)EEPROM.read(Address_MATNSTRT_M) + 60*(int)EEPROM.read(Address_MATNSTRT_H);
@@ -127,12 +127,12 @@ void IrrigazioneMS(int unixtime,int starttimeM,int stoptimeM,int starttimeS,int 
 void IrrigazioneFix(int unixtime){
     
     if(irrigazione == true  && unixtime - last_irrig_fix >= (int)EEPROM.read(Address_DURIRGZFIX)){
-          Serial.println("Irrigazione fissa: ");
+          Serial.println(F("Irrigazione fissa: "));
           InterruttoreServo(false);
           last_irrig_fix = unixtime;
       }
       if(irrigazione == false  && unixtime - last_irrig_fix >= (int)EEPROM.read(Address_PERIRGZFIX)){
-          Serial.println("Irrigazione fissa: ");
+          Serial.println(F("Irrigazione fissa: "));
           InterruttoreServo(true);
           last_irrig_fix = unixtime;
       }
@@ -144,11 +144,11 @@ void InterruttoreServo(bool state){
     if(state == true){
       ServoPos((int)MAXSERVO);    // Apro
       irrigazione = true;         //aggiorno lo stato
-      Serial.println("Apro"); 
+      Serial.println(F("Apro")); 
     }else{
       ServoPos((int)MINSERVO);    // Chiudo
       irrigazione = false;        //aggiorno lo stato
-      Serial.println("Chiudo"); 
+      Serial.println(F("Chiudo")); 
     }
     
   return;

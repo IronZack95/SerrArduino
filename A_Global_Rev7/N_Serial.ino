@@ -17,7 +17,7 @@ String clean =  "clean";
             IncomingChar = Serial.read();
 
             // say what you got:
-            Serial.print("I received: ");
+            Serial.print(F("I received: "));
             Serial.println(IncomingChar);
       
       if(IncomingChar == scan){
@@ -50,9 +50,9 @@ void ModificaVariabili(){
   char IncomingChar; 
  
   // Scan
-  Serial.println("");   
-  Serial.print("Modifica una variabile tra le "); Serial.print(sizeof(int_table));  Serial.println(" disponibili");
-  Serial.println(""); 
+  Serial.println();   
+  Serial.print(F("Modifica una variabile tra le ")); Serial.print(sizeof(int_table));  Serial.println(F(" disponibili"));
+  Serial.println(); 
   EEPROM_Scan();
   
 
@@ -63,7 +63,7 @@ void ModificaVariabili(){
       
       x = true;
       // say what you got:
-      Serial.print("I received: ");
+      Serial.print(F("I received: "));
       Serial.println(IncomingChar);
      }
    }

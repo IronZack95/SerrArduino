@@ -13,10 +13,10 @@ void GestioneRelay(){
 void Relay(bool state){
     if(state == true){
       digitalWrite(RELAY,HIGH);
-      Serial.println("Accendo Relè"); 
+      Serial.println(F("Accendo Relè")); 
     }else{
       digitalWrite(RELAY,LOW);
-      Serial.println("Spengo Relè"); 
+      Serial.println(F("Spengo Relè")); 
     }
     Relay_State = state;
   return;

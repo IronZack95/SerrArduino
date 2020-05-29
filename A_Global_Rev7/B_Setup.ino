@@ -16,7 +16,7 @@ void setup() {
   EEPROM_Scan();                          // <---- Decommento se voglio lo scan inSerial Monitor della EEPROM
   
   // Initialize DS3231
-  Serial.println("Initialize DS3231");
+  Serial.println(F("Initialize DS3231"));
   clock.begin();
 
   //Set Allarms
@@ -59,8 +59,8 @@ void setup() {
   pinMode(RELAY,OUTPUT);
   Relay(false);
 /*
-  // Inizialisso IR
-  Serial.println("IR Receiver Button Decode"); 
+  // Inizializzo IR
+  Serial.println(F("IR Receiver Button Decode")); 
   irrecv.enableIRIn(); // Start the receiver
 */
   // Inizialize righe e colonne LCD

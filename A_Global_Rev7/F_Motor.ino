@@ -1,10 +1,10 @@
 
 void InterrutoreVentilazione(){
     if(ventilazione == true){
-            Serial.println("Ventilazione OFF");
+            Serial.println(F("Ventilazione OFF"));
             ventilazione = false;
     }else{
-            Serial.println("Ventilazione ON");
+            Serial.println(F("Ventilazione ON"));
             ventilazione = true;
       }
   return;

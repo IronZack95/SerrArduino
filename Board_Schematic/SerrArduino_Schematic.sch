@@ -1,4 +1,4 @@
-*version 9.1 1174779
+*version 9.1 336684916
 u 450
 HB? 7
 D? 2
@@ -20,7 +20,7 @@ AutoGenStim4ExtIFPorts 1
 @index
 pageloc 1 0 12277 
 @status
-c 120:04:29:02:45:08;1590713108
+c 120:04:29:12:40:03;1590748803
 *page 1 0 970 720 iA
 @ports
 @parts
@@ -60,35 +60,6 @@ a 0 s 0:13 0 0 -10 hln 100 FLOAT=n
 a 0 s 1 0 1 8 hln 100 PIN=
 @graphics 70 40 0 0 10
 r 0 0 0 70 40
-*end blocksym
-block 317 blocksym317 390 250 h
-a 0 x 0:13 0 0 0 hln 100 PKGREF=RTC-3231
-a 0 xp 9 0 2 50 hln 100 REFDES=RTC-3231
-*symbol blocksym317
-d 
-@type p
-@attributes
-a 0 sp 9 0 0 0 hln 100 REFDES=HB?
-a 0 s 0 0 0 0 hln 100 PART=
-@pins
-p 2 10 0 hct 100 VDD l 10 0 d
-a 0 s 0:13 0 0 0 hln 100 ERC=i
-a 0 s 0:13 0 0 0 hln 100 FLOAT=n
-a 0 s 1 0 11 -2 hln 100 PIN=
-p 2 30 0 hct 100 SDA l 30 0 d
-a 0 s 0:13 0 0 0 hln 100 ERC=i
-a 0 s 0:13 0 0 0 hln 100 FLOAT=n
-a 0 s 1 0 31 -2 hln 100 PIN=
-p 2 70 0 hct 100 GND l 70 0 d
-a 0 s 0:13 0 0 0 hln 100 ERC=i
-a 0 s 0:13 0 0 0 hln 100 FLOAT=n
-a 0 s 1 0 71 -2 hln 100 PIN=
-p 2 50 0 hct 100 SCL l 50 0 d
-a 0 s 0:13 0 0 0 hln 100 ERC=i
-a 0 s 0:13 0 0 0 hln 100 FLOAT=n
-a 0 s 1 0 51 -2 hln 100 PIN=
-@graphics 80 100 0 0 10
-r 0 0 0 80 100
 *end blocksym
 block 319 blocksym319 340 410 h
 a 0 x 0:13 0 0 0 hln 100 PKGREF=220AC/12VDC
@@ -313,16 +284,45 @@ a 0 s 0 0 0 0 hln 100 PART=
 @graphics 160 180 0 0 10
 r 0 0 0 160 180
 *end blocksym
+block 317 blocksym317 390 250 h
+a 0 x 0:13 0 0 0 hln 100 PKGREF=RTC-3231
+a 0 xp 9 0 2 50 hln 100 REFDES=RTC-3231
+*symbol blocksym317
+d 
+@type p
+@attributes
+a 0 sp 9 0 0 0 hln 100 REFDES=HB?
+a 0 s 0 0 0 0 hln 100 PART=
+@pins
+p 2 10 0 hct 100 GND l 10 0 d
+a 0 s 0:13 0 0 0 hln 100 ERC=i
+a 0 s 0:13 0 0 0 hln 100 FLOAT=n
+a 0 s 1 0 11 -2 hln 100 PIN=
+p 2 30 0 hct 100 VCC l 30 0 d
+a 0 s 0:13 0 0 0 hln 100 ERC=i
+a 0 s 0:13 0 0 0 hln 100 FLOAT=n
+a 0 s 1 0 31 -2 hln 100 PIN=
+p 2 70 0 hct 100 SCL l 70 0 d
+a 0 s 0:13 0 0 0 hln 100 ERC=i
+a 0 s 0:13 0 0 0 hln 100 FLOAT=n
+a 0 s 1 0 71 -2 hln 100 PIN=
+p 2 50 0 hct 100 SDA l 50 0 d
+a 0 s 0:13 0 0 0 hln 100 ERC=i
+a 0 s 0:13 0 0 0 hln 100 FLOAT=n
+a 0 s 1 0 51 -2 hln 100 PIN=
+@graphics 80 100 0 0 10
+r 0 0 0 80 100
+*end blocksym
 part 1 titleblk 960 720 h
 a 1 s 13 0 350 10 hcn 100 PAGESIZE=A
 a 1 s 13 0 180 60 hcn 100 PAGETITLE=
-a 1 s 13 0 300 95 hrn 100 PAGENO=1
-a 1 s 13 0 340 95 hrn 100 PAGECOUNT=1
 a 1 u 13 0 10 10 hln 100 CompanyName=Z-Amps, Inc.
 a 1 u 13 0 10 20 hln 100 Line1=
 a 1 u 13 0 10 30 hln 100 Line2=
 a 1 u 13 0 10 40 hln 100 Line3=
 a 1 u 13 0 150 95 hln 100 Date=May 29, 2020
+a 1 s 13 0 340 95 hrn 100 PAGECOUNT=1
+a 1 s 13 0 300 95 hrn 100 PAGENO=1
 @conn
 w 273
 s 640 300 660 300 272
@@ -555,16 +555,16 @@ j 340 470
 + p 319 N
 + w 323
 j 460 250
-+ p 317 GND
-+ w 357
-j 440 250
 + p 317 SCL
 + w 357
+j 440 250
++ p 317 SDA
++ w 357
 j 400 250
-+ p 317 VDD
++ p 317 GND
 + w 359
 j 420 250
-+ p 317 SDA
++ p 317 VCC
 + w 361
 j 500 250
 + p 316 OUT+

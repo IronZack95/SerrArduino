@@ -110,26 +110,26 @@ void Serial_Out_Auto(byte t1, byte t2, byte u, int v, int l , int p){
         // Print to Serial
 
         //System Time
-        Serial.print("Raw data: ");
-        Serial.print(dt.year);   Serial.print("-");
-        Serial.print(dt.month);  Serial.print("-");
-        Serial.print(dt.day);    Serial.print(" ");
-        Serial.print(dt.hour);   Serial.print(":");
-        Serial.print(dt.minute); Serial.print(":");
-        Serial.print(dt.second); Serial.println("");
+        Serial.print(F("Raw data: "));
+        Serial.print(dt.year);   Serial.print(F("-"));
+        Serial.print(dt.month);  Serial.print(F("-"));
+        Serial.print(dt.day);    Serial.print(F(" "));
+        Serial.print(dt.hour);   Serial.print(F(":"));
+        Serial.print(dt.minute); Serial.print(F(":"));
+        Serial.print(dt.second); Serial.println();
 
-        Serial.print("Unix Time: "); Serial.print(dt.unixtime); Serial.println("");
+        Serial.print(F("Unix Time: ")); Serial.print(dt.unixtime); Serial.println();
         
         //Serial.println("Sample OK: ");
         
-        Serial.print("Temperatura DHT: "); Serial.print((int)t1); Serial.println(" *C, ");
-        Serial.print("Temperatura Analog: "); Serial.print((int)t2); Serial.println(" *C, ");
-        Serial.print("Velocità Motore: "); Serial.print((int)v); Serial.println(" %, "); 
+        Serial.print(F("Temperatura DHT: ")); Serial.print((int)t1); Serial.println(F(" *C, "));
+        Serial.print(F("Temperatura Analog: ")); Serial.print((int)t2); Serial.println(F(" *C, "));
+        Serial.print(F("Velocità Motore: ")); Serial.print((int)v); Serial.println(F(" %, ")); 
         
-        Serial.print("Luce: "); Serial.print((int)l); Serial.println(" %, ");
-        Serial.print("Servo: "); Serial.print((int)p); Serial.println(" gradi, ");
+        Serial.print(F("Luce: ")); Serial.print((int)l); Serial.println(F(" %, "));
+        Serial.print(F("Servo: ")); Serial.print((int)p); Serial.println(F(" gradi, "));
 
-        Serial.print("Umidità: "); Serial.print((int)u); Serial.println(" %");
+        Serial.print(F("Umidità: ")); Serial.print((int)u); Serial.println(F(" %"));
 
       return;
   }
@@ -140,13 +140,13 @@ void LCD_Out_Auto(byte t, byte u, int v, int l){
         lcd.clear();
         lcd.noCursor();
         lcd.setCursor(0, 0);
-        lcd.print("Temp:");   lcd.print((int)t);
+        lcd.print(F("Temp:"));   lcd.print((int)t);
         lcd.setCursor(8, 0);
-        lcd.print("Umid:");   lcd.print((int)u); //lcd.print("%");
+        lcd.print(F("Umid:"));   lcd.print((int)u); //lcd.print("%");
         lcd.setCursor(0, 1);
-        lcd.print("Luce:");   lcd.print((int)l); //lcd.print("%");
+        lcd.print(F("Luce:"));   lcd.print((int)l); //lcd.print("%");
         lcd.setCursor(8, 1);
-        lcd.print("Velo:"); lcd.print((int)v); //lcd.print("%");
+        lcd.print(F("Velo:")); lcd.print((int)v); //lcd.print("%");
         
         return;
 }
@@ -156,19 +156,19 @@ void Error_Serial(int err){
         switch(err){
           
             case ERR_DHT:
-                  Serial.println("ERRORE  - LETTURA DHT11");
+                  Serial.println(F("ERRORE  - LETTURA DHT11"));
               break;
               
             case ERR_LIGHT:
-                Serial.println("ERRORE  - LETTURA FOTORESISTENZA");
+                Serial.println(F("ERRORE  - LETTURA FOTORESISTENZA"));
             break;
 
             case ERR_TEMP:
-                  Serial.println("ERRORE  - LETTURA SENSORE TEMPERATURA");
+                  Serial.println(F("ERRORE  - LETTURA SENSORE TEMPERATURA"));
               break;
               
             default:
-                  Serial.println("ERRORE NON IDENTIFICATO");
+                  Serial.println(F("ERRORE NON IDENTIFICATO"));
               break;
         }
   
@@ -179,30 +179,30 @@ void Error_Serial(int err){
 void Setup_LCD(){
          lcd.clear();
          lcd.setCursor(0, 0);    
-         lcd.print(" -- STARTING -- ");
+         lcd.print(F(" -- STARTING -- "));
          return;
   }
 
 void Setup_Serial(){
-        Serial.println("");
-        Serial.println("ooooooooooooo SETUP ooooooooooooo");
+        Serial.println();
+        Serial.println(F("ooooooooooooo SETUP ooooooooooooo"));
         return;
   }
 
 void Loop_Serial_div(){
         // start working...
-        Serial.println("=================================");
+        Serial.println(F("================================="));
         return;
   }
 
 void Setup_Serial_div(){
         // start working...
-        Serial.println("*********************************");
+        Serial.println(F("*********************************"));
         return;
   }
   
 void Error_Serial_div(){
         // start working...
-        Serial.println("ooooooooooooooooooooooooooooooooo");
+        Serial.println(F("ooooooooooooooooooooooooooooooooo"));
         return;
   }

@@ -15,8 +15,8 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
 // define pin
 #define ENABLE    5
-//#define TELECOM   4
-#define RELAY     3
+#define TELECOM   3
+#define RELAY     4
 #define LIGHTPIN  0
 #define pinDHT11  13
 #define SERVOPIN  6
@@ -31,7 +31,6 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define ERR_LIGHT 2
 #define ERR_TEMP  3
 
-SimpleDHT11 dht11;
 
 // Definizioni Globali Modificabili da Menù
 #define TH            24          // gradi a cui si attiva la ventola
@@ -97,6 +96,13 @@ const short MAXVAR = sizeof(int_table_Address);
 int skip = 0;                      // contatore che permette l'automazione
 int del = AUTOMATIC_SAMPLING_RATE; // SAMPLING RATE
 
+/*
+// IR Reciver Object
+IRrecv irrecv(TELECOM);     // create instance of 'irrecv'
+decode_results results;      // create instance of 'decode_results'
+*/
+// DHT11 Object
+SimpleDHT11 dht11;
 
 // create servo object to control a servo
 Servo myservo;  // twelve servo objects can be created on most boards
@@ -104,11 +110,8 @@ Servo myservo;  // twelve servo objects can be created on most boards
 // create Clock Object
 DS3231 clock;
 RTCDateTime dt;
-/*
-// IR Reciver Object
-IRrecv irrecv(TELECOM);     // create instance of 'irrecv'
-decode_results results;      // create instance of 'decode_results'
-*/
+
+
 // Variabili DHT11
 byte temperature = 0;
 byte humidity = 0;
