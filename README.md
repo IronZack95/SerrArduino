@@ -2,7 +2,7 @@
 > Sistema di Automazione per Serra con Arduino
 
 **Author**
-- [IronZack95](@https://github.com/IronZack95)
+- [IronZack95](https://github.com/IronZack95)
  
  ## Instructions:
  1. A_Global_rev7 contiene il codice che ho scritto per Arduino IDE
