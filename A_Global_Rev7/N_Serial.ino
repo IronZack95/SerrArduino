@@ -40,6 +40,10 @@ String clean =  "clean";
            ModificaVariabili();
       }else if(IncomingChar == relay){
            InterruttoreRelay();
+      }else if(IncomingChar == defaul){
+           EEPROM_RAM_ResetToDefault();
+      }else if(IncomingChar == irrig){
+           InterruttoreServo(!irrigazione);
       }
    }
     return;

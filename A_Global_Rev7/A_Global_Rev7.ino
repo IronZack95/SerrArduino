@@ -19,7 +19,8 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define RELAY     4
 #define LIGHTPIN  0
 #define pinDHT11  13
-#define SERVOPIN  6
+//#define SERVOPIN  6
+#define PUMPPIN   6
 #define PinCLK    2
 #define PinDT     16
 #define PinSW     17
@@ -46,7 +47,7 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define SERASTRT_M    30          // Start irrigazione sera      Prime due cifre ora seconde due cifre minuto
 #define DURIRRIG_H    01          // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
 #define DURIRRIG_M    35          // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
-#define PERIRGZFIX    15          // Periodo di tempo in cui avviene la irrigazione
+#define PERIRGZFIX    5          // Periodo di tempo in cui avviene la irrigazione
 #define DURIRGZFIX    1           // Durata di tempo per cui avviene la irrigazione
 
 // Indirizzi in EEPROM
@@ -105,7 +106,7 @@ decode_results results;      // create instance of 'decode_results'
 SimpleDHT11 dht11;
 
 // create servo object to control a servo
-Servo myservo;  // twelve servo objects can be created on most boards
+//Servo myservo;  // twelve servo objects can be created on most boards
 
 // create Clock Object
 DS3231 clock;
@@ -185,6 +186,8 @@ char StopVent = 'v';
 char StopServ = 'b';
 char ModVar =   'm';
 char relay =    'y';
+char defaul =   'l';
+char irrig =    'w';
 const char char_table[] = {scan,reset,EtoR,RtoE,clean,resetRTC,StopVent,StopServ,ModVar};
 
 //Custom char       Se dovessero servire

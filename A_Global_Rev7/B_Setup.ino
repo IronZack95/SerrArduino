@@ -69,7 +69,7 @@ void setup() {
   Setup_LCD();
   
   // Inizialize Servo
-  myservo.attach(SERVOPIN);
+  //myservo.attach(SERVOPIN);
 
   //Custom Char   Se dovessero servire
   lcd.createChar(0, gradi);

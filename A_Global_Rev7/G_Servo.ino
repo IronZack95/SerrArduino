@@ -5,7 +5,7 @@ void ServoPos(int posizione_voluta){
         
         if(posizione_voluta > ultima_posizione){
                 for( int pos = ultima_posizione; pos <= posizione_voluta ; pos += 1) {         // in steps of 1 degree
-                        myservo.write(pos);       // tell servo to go to position in variable 'pos'
+                        //myservo.write(pos);       // tell servo to go to position in variable 'pos'
                         delay(15);                // waits 15ms for the servo to reach the position
                         posizione = pos;
                         //Serial.print("Posizione Servo : " ); Serial.println(pos);     
@@ -14,7 +14,7 @@ void ServoPos(int posizione_voluta){
                                 
         }else if(posizione_voluta < ultima_posizione){
                 for ( int pos = ultima_posizione; pos >= posizione_voluta ; pos -= 1) {         // in steps of 1 degree
-                        myservo.write(pos);       // tell servo to go to position in variable 'pos'
+                        //myservo.write(pos);       // tell servo to go to position in variable 'pos'
                         delay(15);                // waits 15ms for the servo to reach the position
                         posizione = pos;
                         //Serial.print("Posizione Servo : " ); Serial.println(pos);     
@@ -30,7 +30,7 @@ void ServoPos(int posizione_voluta){
                               posizione_voluta = posizione_voluta + Gradi;
                         }
                         direct = !direct;
-                        myservo.write(posizione_voluta);
+                        //myservo.write(posizione_voluta);
                         delay(15);                // waits 15ms for the servo to reach the position
                         posizione = posizione_voluta;
                 }
@@ -142,11 +142,13 @@ void IrrigazioneFix(int unixtime){
 
 void InterruttoreServo(bool state){
     if(state == true){
-      ServoPos((int)MAXSERVO);    // Apro
+      digitalWrite(PUMPPIN, HIGH);
+      //ServoPos((int)MAXSERVO);    // Apro
       irrigazione = true;         //aggiorno lo stato
       Serial.println(F("Apro")); 
     }else{
-      ServoPos((int)MINSERVO);    // Chiudo
+      digitalWrite(PUMPPIN, LOW);
+      //ServoPos((int)MINSERVO);    // Chiudo
       irrigazione = false;        //aggiorno lo stato
       Serial.println(F("Chiudo")); 
     }
