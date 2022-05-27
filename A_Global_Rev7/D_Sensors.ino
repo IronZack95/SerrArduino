@@ -1,6 +1,3 @@
-
-//------------------------------------- FUNZIONI -----------------------------------
-
 int Lettura_SimpleDHT(){
       // read without samples - read Sensors
       if (dht11.read(pinDHT11, &temperature, &humidity, NULL)) {

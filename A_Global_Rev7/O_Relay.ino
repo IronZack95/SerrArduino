@@ -1,6 +1,4 @@
-
-
-void GestioneRelay(){
+void GestioneRiscaldamento(){
 
   if((int)temperature < EEPROM.read(Address_MINTEMP) && Relay_State == false){
     Relay(true);    
@@ -30,9 +28,3 @@ void InterruttoreRelay(){
       }      
   return;
   }
-
-/*
-void StopRelay(){
-  return;
-  }
-*/

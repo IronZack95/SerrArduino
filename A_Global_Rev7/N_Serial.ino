@@ -34,8 +34,8 @@ String clean =  "clean";
           clock.setDateTime(__DATE__, __TIME__);
       }else if(IncomingChar == StopVent){
           InterrutoreVentilazione();
-      }else if(IncomingChar == StopServ){
-           StopServo();
+      }else if(IncomingChar == StopPump){
+           StopPompa();
       }else if(IncomingChar == ModVar){
            ModificaVariabili();
       }else if(IncomingChar == relay){
@@ -43,7 +43,7 @@ String clean =  "clean";
       }else if(IncomingChar == defaul){
            EEPROM_RAM_ResetToDefault();
       }else if(IncomingChar == irrig){
-           InterruttoreServo(!irrigazione);
+           InterruttorePompa();
       }
    }
     return;

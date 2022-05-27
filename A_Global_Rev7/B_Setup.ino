@@ -68,8 +68,10 @@ void setup() {
   lcd.clear();
   Setup_LCD();
   
-  // Inizialize Servo
-  //myservo.attach(SERVOPIN);
+  // Inizialize Relè pompa
+  pinMode(PUMPPIN,OUTPUT);
+  Pompa(false);
+  //last_irrig_fix = 60*(int)dt.minute + 60*60*(int)dt.hour;
 
   //Custom Char   Se dovessero servire
   lcd.createChar(0, gradi);
@@ -77,11 +79,6 @@ void setup() {
   lcd.createChar(1, alien);
   lcd.createChar(2, plant);
   */
-  //inizializzo servo
-  //last_irrig_fix = (int)dt.minute + 60*(int)dt.hour;
-  InterruttoreServo(false);   // chiudo
-  //GestioneIrrigazione();
-
   Setup_Serial_div();
   delay(ATTESASETUP);
   

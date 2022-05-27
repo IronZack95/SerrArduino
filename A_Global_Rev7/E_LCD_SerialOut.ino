@@ -15,8 +15,6 @@ void LCD_Out_UI(){
             lcd.setCursor(0, 1);   
             strcpy_P(buffer, (char *)pgm_read_word(&(string_table[page*2 + 1]))); lcd.print(buffer);     
 
-            
-            
             if(mod == 0 || mod == 1){
               lcd.noCursor();
               }
@@ -105,7 +103,7 @@ void LCD_Out_UI(){
         return;
   };
 
-void Serial_Out_Auto(byte t1, byte t2, byte u, int v, int l , int p){
+void Serial_Out_Auto(byte t1, byte t2, byte u, int v, int l , bool p){
 
         // Print to Serial
 
@@ -127,7 +125,7 @@ void Serial_Out_Auto(byte t1, byte t2, byte u, int v, int l , int p){
         Serial.print(F("Velocità Motore: ")); Serial.print((int)v); Serial.println(F(" %, ")); 
         
         Serial.print(F("Luce: ")); Serial.print((int)l); Serial.println(F(" %, "));
-        Serial.print(F("Servo: ")); Serial.print((int)p); Serial.println(F(" gradi, "));
+        Serial.print(F("Irrigazione: ")); Serial.println((bool)p);
 
         Serial.print(F("Umidità: ")); Serial.print((int)u); Serial.println(F(" %"));
 

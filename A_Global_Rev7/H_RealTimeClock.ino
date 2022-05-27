@@ -1,6 +1,9 @@
 void RealTimeClock(){
       //Aggiorna l'orologio
       dt = clock.getDateTime();
+      if(IrrigMod != 0 && irrigazione == true){ // se l'irrigazione è accesa allora entro nel ciclo di gestione senza aspettare il timer, così posso calcolare i secondi finemente
+        GestioneIrrigazione();
+      }
       return;
   }
 
@@ -28,85 +31,3 @@ void Detect_Allarm(){
       
     return;
   }
-
-
-/*
-void checkAlarms(){
-  RTCAlarmTime a1;  
-  RTCAlarmTime a2;
-
-  if (clock.isArmed1())
-  {
-    a1 = clock.getAlarm1();
-
-    Serial.print("Alarm1 is triggered ");
-    switch (clock.getAlarmType1())
-    {
-      case DS3231_EVERY_SECOND:
-        Serial.println("every second");
-        break;
-      case DS3231_MATCH_S:
-        Serial.print("when seconds match: ");
-        Serial.println(clock.dateFormat("__ __:__:s", a1));
-        break;
-      case DS3231_MATCH_M_S:
-        Serial.print("when minutes and sencods match: ");
-        Serial.println(clock.dateFormat("__ __:i:s", a1));
-        break;
-      case DS3231_MATCH_H_M_S:
-        Serial.print("when hours, minutes and seconds match: ");
-        Serial.println(clock.dateFormat("__ H:i:s", a1));
-        break;
-      case DS3231_MATCH_DT_H_M_S:
-        Serial.print("when date, hours, minutes and seconds match: ");
-        Serial.println(clock.dateFormat("d H:i:s", a1));
-        break;
-      case DS3231_MATCH_DY_H_M_S:
-        Serial.print("when day of week, hours, minutes and seconds match: ");
-        Serial.println(clock.dateFormat("l H:i:s", a1));
-        break;
-      default: 
-        Serial.println("UNKNOWN RULE");
-        break;
-    }
-  } else
-  {
-    Serial.println("Alarm1 is disarmed.");
-  }
-
-  if (clock.isArmed2())
-  {
-    a2 = clock.getAlarm2();
-
-    Serial.print("Alarm2 is triggered ");
-    switch (clock.getAlarmType2())
-    {
-      case DS3231_EVERY_MINUTE:
-        Serial.println("every minute");
-        break;
-      case DS3231_MATCH_M:
-        Serial.print("when minutes match: ");
-        Serial.println(clock.dateFormat("__ __:i:s", a2));
-        break;
-      case DS3231_MATCH_H_M:
-        Serial.print("when hours and minutes match:");
-        Serial.println(clock.dateFormat("__ H:i:s", a2));
-        break;
-      case DS3231_MATCH_DT_H_M:
-        Serial.print("when date, hours and minutes match: ");
-        Serial.println(clock.dateFormat("d H:i:s", a2));
-        break;
-      case DS3231_MATCH_DY_H_M:
-        Serial.println("when day of week, hours and minutes match: ");
-        Serial.print(clock.dateFormat("l H:i:s", a2));
-        break;
-      default: 
-        Serial.println("UNKNOWN RULE"); 
-        break;
-    }
-  } else
-  {
-    Serial.println("Alarm2 is disarmed.");
-  }
-}
-*/

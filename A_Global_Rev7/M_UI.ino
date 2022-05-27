@@ -30,21 +30,15 @@ int Automatic(){
         }  
 
       // comunicazione Motore
-      
       Motore();
 
       // comunicazione Relè
+      GestioneRiscaldamento();
 
-      GestioneRelay();
-      
-
-      // comunicazione Servo
-      //ServoLight();
-
-      // Stampa
+      // Stampa se la modalità è automatica
       if(mod == 0){
           // Stampo i valori Seriali dopo lettura
-          Serial_Out_Auto(temperature, Analog_Temp , humidity , velocity_percentuale, light_percentuale, posizione);
+          Serial_Out_Auto(temperature, Analog_Temp , humidity , velocity_percentuale, light_percentuale, irrigazione);
           // Stampo i valori LCD dopo lettura
           LCD_Out_Auto(temperature, humidity , velocity_percentuale, light_percentuale);
       }

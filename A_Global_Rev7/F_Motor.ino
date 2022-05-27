@@ -1,4 +1,3 @@
-
 void InterrutoreVentilazione(){
     if(ventilazione == true){
             Serial.println(F("Ventilazione OFF"));

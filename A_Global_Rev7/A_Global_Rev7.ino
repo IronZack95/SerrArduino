@@ -2,7 +2,6 @@
 
 #include <SimpleDHT.h>
 #include <LiquidCrystal.h>
-#include <Servo.h>
 #include <Wire.h>
 #include <DS3231.h>
 #include <EEPROM.h>
@@ -19,7 +18,6 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define RELAY     4
 #define LIGHTPIN  0
 #define pinDHT11  13
-//#define SERVOPIN  6
 #define PUMPPIN   6
 #define PinCLK    2
 #define PinDT     16
@@ -39,16 +37,16 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define MINTEMP       10          // minima temperatura per il riscaldamento
 #define MINUMID       26          // Umidità minima
 #define MAXUMID       28          // Umidità massima
-#define PERVENT       10          // Periodo di tempo in cui avviene la ventilazione
-#define DURVENT       2           // Durata di tempo per cui avviene la ventilazione
+#define PERVENT       10          // Periodo di tempo in cui avviene la ventilazione (minuti)
+#define DURVENT       2           // Durata di tempo per cui avviene la ventilazione (minuti)
 #define MATNSTRT_H    06          // Start irrigazione mattina   Prime due cifre ora seconde due cifre minuto
 #define MATNSTRT_M    00          // Start irrigazione mattina   Prime due cifre ora seconde due cifre minuto
 #define SERASTRT_H    20          // Start irrigazione sera      Prime due cifre ora seconde due cifre minuto
 #define SERASTRT_M    30          // Start irrigazione sera      Prime due cifre ora seconde due cifre minuto
-#define DURIRRIG_H    01          // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
-#define DURIRRIG_M    35          // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
-#define PERIRGZFIX    5          // Periodo di tempo in cui avviene la irrigazione
-#define DURIRGZFIX    1           // Durata di tempo per cui avviene la irrigazione
+#define DURIRRIG_M    00          // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
+#define DURIRRIG_S    40          // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
+#define PERIRGZFIX    1           // Periodo di tempo in cui avviene la irrigazione (minuti)      |_(per)__xx(dur)xx|___xxx|
+#define DURIRGZFIX    30          // Durata di tempo per cui avviene la irrigazione (secondi)
 
 // Indirizzi in EEPROM
 #define Address_TH            0
@@ -62,14 +60,14 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define Address_MATNSTRT_M    8
 #define Address_SERASTRT_H    9
 #define Address_SERASTRT_M    10
-#define Address_DURIRRIG_H    11
-#define Address_DURIRRIG_M    12
+#define Address_DURIRRIG_M    11
+#define Address_DURIRRIG_S    12
 #define Address_PERIRGZFIX    13
 #define Address_DURIRGZFIX    14
 
 //Variabili modificabili nella RAM
-byte int_table[] = {TH,MAXTEMP,MINTEMP,MINUMID,MAXUMID,PERVENT,DURVENT,MATNSTRT_H,MATNSTRT_M,SERASTRT_H,SERASTRT_M,DURIRRIG_H,DURIRRIG_M,PERIRGZFIX,DURIRGZFIX};
-byte int_table_Address[] = {Address_TH,Address_MAXTEMP,Address_MINTEMP,Address_MINUMID,Address_MAXUMID,Address_PERVENT,Address_DURVENT,Address_MATNSTRT_H,Address_MATNSTRT_M,Address_SERASTRT_H,Address_SERASTRT_M,Address_DURIRRIG_H,Address_DURIRRIG_M,Address_PERIRGZFIX,Address_DURIRGZFIX};
+byte int_table[] = {TH,MAXTEMP,MINTEMP,MINUMID,MAXUMID,PERVENT,DURVENT,MATNSTRT_H,MATNSTRT_M,SERASTRT_H,SERASTRT_M,DURIRRIG_M,DURIRRIG_S,PERIRGZFIX,DURIRGZFIX};
+byte int_table_Address[] = {Address_TH,Address_MAXTEMP,Address_MINTEMP,Address_MINUMID,Address_MAXUMID,Address_PERVENT,Address_DURVENT,Address_MATNSTRT_H,Address_MATNSTRT_M,Address_SERASTRT_H,Address_SERASTRT_M,Address_DURIRRIG_M,Address_DURIRRIG_S,Address_PERIRGZFIX,Address_DURIRGZFIX};
 const short MAXVAR = sizeof(int_table_Address);
 //byte *const int_table[] PROGMEM = {TH,MAXTEMP,MINTEMP,MINUMID,MAXUMID,PERVENT,DURVENT,MATNSTRT_H,MATNSTRT_M,SERASTRT_H,SERASTRT_M,DURIRRIG_H,DURIRRIG_M,PERIRGZFIX,DURIRGZFIX};
 
@@ -78,16 +76,11 @@ const short MAXVAR = sizeof(int_table_Address);
 #define MAXVEL        255         // massima velocità
 #define MINVEL        50          // minima velocità
 #define MAXADC        1024        // massimo valore codifica luce
-#define MINSERVO      0           // Servo in posizione zero gradi
-#define MAXSERVO      180.        // massimo range servomotore 0 - 180
-#define UNIXDAY       24*60       // numero di minuti in un giorno
+#define UNIXDAY       24*60*60    // numero di secondi in un giorno
 
 //  Vaiabili di servizio
 #define TimeAvvio  500            // PERIODO per avviare il motore
 #define StepAvvio  4              // step in cui si avvia il motore
-
-#define Gradi         3           // gradi per assestamento servo
-#define CicliFermo    2           // cicli per assestamento servo
 
 // Variabili Tempo
 #define ATTESASETUP    2000          // Secondi in cui il SETUP rimane attivo
@@ -97,21 +90,12 @@ const short MAXVAR = sizeof(int_table_Address);
 int skip = 0;                      // contatore che permette l'automazione
 int del = AUTOMATIC_SAMPLING_RATE; // SAMPLING RATE
 
-/*
-// IR Reciver Object
-IRrecv irrecv(TELECOM);     // create instance of 'irrecv'
-decode_results results;      // create instance of 'decode_results'
-*/
 // DHT11 Object
 SimpleDHT11 dht11;
-
-// create servo object to control a servo
-//Servo myservo;  // twelve servo objects can be created on most boards
 
 // create Clock Object
 DS3231 clock;
 RTCDateTime dt;
-
 
 // Variabili DHT11
 byte temperature = 0;
@@ -129,9 +113,7 @@ float velocity = 0;
 int   velocity_percentuale = 0;
 bool  ventilazione = true;
 
-// Variabili Servo
-int ultima_posizione = 0;
-int posizione = 0;
+// Variabili irrigazione
 bool irrigazione = false;
 short IrrigMod = 1;
 int last_irrig_fix = 0;
@@ -183,12 +165,12 @@ char RtoE =     'e';
 char clean =    'c';
 char resetRTC = 't';
 char StopVent = 'v';
-char StopServ = 'b';
+char StopPump = 'b';
 char ModVar =   'm';
 char relay =    'y';
 char defaul =   'l';
 char irrig =    'w';
-const char char_table[] = {scan,reset,EtoR,RtoE,clean,resetRTC,StopVent,StopServ,ModVar};
+const char char_table[] = {scan,reset,EtoR,RtoE,clean,resetRTC,StopVent,StopPump,ModVar,relay,defaul,irrig};
 
 //Custom char       Se dovessero servire
 byte gradi[8] = {
@@ -244,13 +226,13 @@ const char string_10[] PROGMEM = "Irrigazione: ore";
 const char string_11[] PROGMEM = "M   :   S   :   ";
 // pagina 6
 const char string_12[] PROGMEM = "Irrigazione: per";
-const char string_13[] PROGMEM = "   ore e    min ";
+const char string_13[] PROGMEM = "   min e    sec ";
 // pagina 7
 const char string_14[] PROGMEM = "Irrigazione: fix";
 const char string_15[] PROGMEM = "Ogni:    minuti ";
 // pagina 8
 const char string_16[] PROGMEM = "Irrigazione: fix";
-const char string_17[] PROGMEM = "Per:     minuti ";
+const char string_17[] PROGMEM = "Per:     secondi";
 // pagina 9
 const char string_18[] PROGMEM = "Illuminazione:  ";
 const char string_19[] PROGMEM = "Stato:    %     ";
