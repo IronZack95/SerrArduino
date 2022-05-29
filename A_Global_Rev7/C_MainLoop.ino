@@ -2,6 +2,7 @@
 
 void loop() {
 
+      
       int err = OK;
       
       //Inizio con i rilevamenti
@@ -16,7 +17,7 @@ void loop() {
       
       //Rileva Allarme
       Detect_Allarm();
-
+     
       if(mod != 0){                     //-----------  ENTRA IN MODALITA' UI
             UI(); 
             // Verifico che sia passato un tot di tempo dall'ultimo interrupt

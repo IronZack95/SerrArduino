@@ -12,7 +12,7 @@ void setup() {
   EEPROM_to_RAM_Update();
 
   //Inizializzo EEPROM
-  //EEPROM_RAM_ResetToDefault();            // <---- Decommento se voglio Le Impostazioni di fabbrica
+  EEPROM_RAM_ResetToDefault();            // <---- Decommento se voglio Le Impostazioni di fabbrica
   EEPROM_Scan();                          // <---- Decommento se voglio lo scan inSerial Monitor della EEPROM
   
   // Initialize DS3231

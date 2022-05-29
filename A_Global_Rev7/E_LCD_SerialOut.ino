@@ -1,5 +1,5 @@
 void LCD_Out_UI(){
-
+        noInterrupts();
         char buffer[16];  // make sure this is large enough for the largest string it must hold
         int posizione_cursore = -1;
         if(temperature != last_temperature || light_percentuale != last_light_percentuale || RotaryPosition != last_RotaryPosition){         // Solo alla variazione di qualche variabile per evitare lo sfarfallio
@@ -99,7 +99,7 @@ void LCD_Out_UI(){
                   lcd.cursor();
               }
         }
-
+        interrupts();
         return;
   };
 
@@ -133,7 +133,7 @@ void Serial_Out_Auto(byte t1, byte t2, byte u, int v, int l , bool p){
   }
 
 void LCD_Out_Auto(byte t, byte u, int v, int l){
-  
+        noInterrupts();
         // Print a message to the LCD.       
         lcd.clear();
         lcd.noCursor();
@@ -145,7 +145,7 @@ void LCD_Out_Auto(byte t, byte u, int v, int l){
         lcd.print(F("Luce:"));   lcd.print((int)l); //lcd.print("%");
         lcd.setCursor(8, 1);
         lcd.print(F("Velo:")); lcd.print((int)v); //lcd.print("%");
-        
+        interrupts();
         return;
 }
 

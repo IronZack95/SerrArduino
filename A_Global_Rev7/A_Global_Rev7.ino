@@ -6,8 +6,6 @@
 #include <DS3231.h>
 #include <EEPROM.h>
 #include <avr/pgmspace.h>
-//#include <IRremote.h>
-
 
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
@@ -39,11 +37,11 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 #define MAXUMID       28          // Umidità massima
 #define PERVENT       10          // Periodo di tempo in cui avviene la ventilazione (minuti)
 #define DURVENT       2           // Durata di tempo per cui avviene la ventilazione (minuti)
-#define MATNSTRT_H    06          // Start irrigazione mattina   Prime due cifre ora seconde due cifre minuto
-#define MATNSTRT_M    00          // Start irrigazione mattina   Prime due cifre ora seconde due cifre minuto
+#define MATNSTRT_H    6           // Start irrigazione mattina   Prime due cifre ora seconde due cifre minuto
+#define MATNSTRT_M    0           // Start irrigazione mattina   Prime due cifre ora seconde due cifre minuto
 #define SERASTRT_H    20          // Start irrigazione sera      Prime due cifre ora seconde due cifre minuto
 #define SERASTRT_M    30          // Start irrigazione sera      Prime due cifre ora seconde due cifre minuto
-#define DURIRRIG_M    00          // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
+#define DURIRRIG_M    0           // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
 #define DURIRRIG_S    40          // Durata irrigazione        Prime due cifre ora seconde due cifre minuto
 #define PERIRGZFIX    1           // Periodo di tempo in cui avviene la irrigazione (minuti)      |_(per)__xx(dur)xx|___xxx|
 #define DURIRGZFIX    30          // Durata di tempo per cui avviene la irrigazione (secondi)
@@ -116,7 +114,7 @@ bool  ventilazione = true;
 // Variabili irrigazione
 bool irrigazione = false;
 short IrrigMod = 1;
-int last_irrig_fix = 0;
+unsigned long last_irrig_fix = 0;
 /*
   0 - disattivata
   1 - Irrigazione Mattina Sera
